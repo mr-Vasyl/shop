@@ -1,0 +1,55 @@
+.user {
+  margin: 0 auto;
+  width: 500px;
+  text-align: center;
+  margin-bottom: 50px;
+}
+.account {
+  font-weight: 500;
+  font-size: 33px;
+  padding: 30px 0 30px;
+  text-align: center;
+}
+.toggles {
+  display: flex;
+  justify-content: space-between;
+  background-color: #efefef;
+  height: 60px;
+  margin-bottom: 80px;
+  align-items: center;
+  padding: 0 7px;
+  border-radius: 8px;
+}
+.toggles button {
+  padding: 12px 85px;
+  font-size: 20px;
+  border-radius: 8px;
+  height: 50px;
+}
+
+.active {
+  background-color: #fff;
+}
+.wrapper {
+  margin-bottom: 50px;
+}
+.shopcart {
+  color: #a18a68;
+}
+@media (max-width: 520px) {
+  .user {
+    width: 400px;
+  }
+  .toggles button {
+    padding: 12px 60px;
+  }
+}
+
+@media (max-width: 420px) {
+  .user {
+    width: 310px;
+  }
+  .toggles button {
+    padding: 12px 35px;
+  }
+}

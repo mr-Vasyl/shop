@@ -1,0 +1,27 @@
+.category {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 25px;
+  font-size: 18px;
+  font-weight: 600;
+  padding-bottom: 8px;
+}
+.line {
+  height: 1px;
+  background: rgba(112, 112, 112, 1);
+  border: none;
+  margin-bottom: 15px;
+}
+.navLink {
+  position: relative;
+}
+
+.navLink::before {
+  content: "";
+  top: 100%;
+  height: 2px;
+  width: 100%;
+  display: block;
+  position: absolute;
+  background-color: #a18a68;
+}

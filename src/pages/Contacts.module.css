@@ -1,0 +1,28 @@
+.title {
+  margin-top: 30px;
+  text-align: center;
+  font-size: 33px;
+  padding-bottom: 30px;
+}
+
+.contact {
+  display: flex;
+
+  align-items: center;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.country {
+  font-size: 22px;
+}
+
+.time {
+  font-size: 12px;
+}
+
+@media (max-width: 1110px) {
+}
+
+@media (max-width: 799px) {
+}

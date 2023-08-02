@@ -1,0 +1,176 @@
+.title {
+  font-size: 33px;
+  font-weight: 500;
+  padding: 30px 0 30px;
+  text-align: center;
+}
+.cart {
+  display: flex;
+  flex-direction: column;
+  gap: 0 30px;
+  align-items: center;
+}
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.list {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+.name {
+  width: 200px;
+}
+.price {
+  width: 50px;
+}
+.TotalSum {
+  width: 60px;
+}
+
+.sum {
+  width: 45px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.quantity {
+  width: 120px;
+  display: flex;
+  text-align: center;
+  gap: 10px;
+}
+
+.quantity button {
+  padding: 0px 10px;
+  font-weight: 500;
+  font-size: 22px;
+  color: rgb(0, 0, 0);
+  border: 1px solid;
+  border-radius: 5px;
+}
+.total {
+  font-size: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.total span {
+  font-size: 18px;
+  font-weight: 800;
+}
+.cartBtn {
+  font-size: 16px;
+  padding: 10px 50px;
+  border-radius: 4px;
+  border: 1px solid;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.img {
+  width: 40px;
+  height: 40px;
+}
+
+.price,
+.total span,
+.TotalSum {
+  color: #a18a68;
+}
+.wrapperCart {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+}
+.contentCart {
+  display: flex;
+  gap: 0 10px;
+  align-items: center;
+}
+.empty {
+  font-size: 20px;
+  color: #707070;
+}
+.del {
+  padding: 0px 10px;
+  border: 1px solid;
+  font-size: 19px;
+  border-radius: 5px;
+}
+@media (max-width: 680px) {
+  .list {
+    gap: 20px;
+  }
+}
+
+@media (max-width: 680px) {
+  .list {
+    gap: 10px;
+  }
+}
+@media (max-width: 525px) {
+  .list {
+    gap: 5px;
+  }
+  .name {
+    width: 150px;
+    font-size: 14px;
+  }
+}
+@media (max-width: 450px) {
+  .list {
+    gap: 5px;
+  }
+  .name {
+    width: 120px;
+    font-size: 12px;
+  }
+  .img {
+    width: 30px;
+    height: 30px;
+  }
+  .price,
+  .sum,
+  .quantity,
+  .TotalSum {
+    font-size: 12px;
+  }
+  .price,
+  .sum {
+    width: 30px;
+  }
+  .total span {
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .total span {
+    font-size: 15px;
+    font-weight: 600;
+  }
+  .cartBtn {
+    font-size: 15px;
+    padding: 6px 30px;
+    border-radius: 4px;
+    border: 1px solid;
+    font-weight: 600;
+  }
+}
+@media (max-width: 400px) {
+  .name {
+    width: 90px;
+  }
+  .img {
+    display: none;
+  }
+
+  .sum {
+    width: 20px;
+  }
+  .TotalSum {
+    width: 40px;
+  }
+}

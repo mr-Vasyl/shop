@@ -1,0 +1,8 @@
+.socials {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+.socials img:hover {
+  fill: #da4567;
+}

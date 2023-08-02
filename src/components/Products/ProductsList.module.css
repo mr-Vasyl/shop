@@ -1,0 +1,113 @@
+.cardsList {
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: 25px;
+}
+
+.cardsItem {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 20px;
+}
+
+.image {
+  width: 290px;
+  height: 290px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 10px;
+}
+.cardName {
+  width: 290px;
+}
+
+.cardPrise {
+  color: #a18a68;
+  font-size: 500;
+}
+
+.more {
+  padding: 10px 50px;
+  border-radius: 4px;
+  border: 1px solid;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.enter {
+  margin-top: 20px;
+
+  text-align: center;
+}
+.isEmpty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #707070;
+  font-size: 20px;
+}
+
+@media (max-width: 1256px) {
+  .cardsList {
+    justify-content: center;
+  }
+  .image {
+    width: 260px;
+    height: 260px;
+  }
+  .cardName {
+    font-size: 18px;
+    width: 260px;
+  }
+}
+
+@media (max-width: 1135px) {
+  .image {
+    width: 290px;
+    height: 290px;
+  }
+  .cardName {
+    width: 290px;
+  }
+}
+
+@media (max-width: 941px) {
+  .image {
+    width: 260px;
+    height: 260px;
+  }
+  .cardName {
+    width: 260px;
+  }
+}
+@media (max-width: 850px) {
+  .image {
+    width: 290px;
+    height: 290px;
+  }
+  .cardName {
+    width: 290px;
+  }
+}
+
+@media (max-width: 626px) {
+  .image {
+    width: 220px;
+    height: 220px;
+  }
+  .cardName {
+    width: 220px;
+  }
+}
+
+@media (max-width: 480px) {
+  .image {
+    width: 290px;
+    height: 290px;
+  }
+  .cardName {
+    width: 290px;
+  }
+}

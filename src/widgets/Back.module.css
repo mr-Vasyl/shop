@@ -1,0 +1,8 @@
+.back {
+  padding: 10px 50px;
+
+  border-radius: 4px;
+  border: 1px solid;
+  font-weight: 700;
+  text-transform: uppercase;
+}

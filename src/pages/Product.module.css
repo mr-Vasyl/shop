@@ -1,0 +1,174 @@
+.section {
+  padding: 30px 0 50px;
+}
+.product {
+  display: flex;
+  margin-bottom: 50px;
+  gap: 65px;
+}
+.images {
+  display: flex;
+  gap: 40px;
+}
+.imagesItem {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  cursor: pointer;
+}
+.img {
+  width: 130px;
+  height: 130px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.mainImg {
+  max-width: 450px;
+  max-height: 450px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.title {
+  font-size: 26px;
+  margin-bottom: 25px;
+}
+.price {
+  color: #a18a68;
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 25px;
+}
+
+.category {
+  margin-bottom: 25px;
+}
+.socials {
+  margin-bottom: 40px;
+}
+
+.desc h4 {
+  font-size: 20px;
+  margin-bottom: 15px;
+}
+.content button {
+  padding: 12px 0;
+  background-color: #000000;
+  color: #fff;
+  min-width: 200px;
+}
+
+.back {
+  margin-top: 20px;
+}
+
+.productLink:hover {
+  color: #a18a68;
+  transition: color 0.3s;
+}
+
+@media (max-width: 900px) {
+  .images {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+  .imagesItem {
+    display: flex;
+    flex-direction: row;
+  }
+}
+
+@media (max-width: 730px) {
+  .product {
+    gap: 40px;
+  }
+}
+
+@media (max-width: 700px) {
+  .product {
+    gap: 20px;
+  }
+  .images {
+    gap: 20px;
+  }
+  .img {
+    width: 100px;
+    height: 100px;
+  }
+  .mainImg {
+    max-width: 360px;
+    max-height: 360px;
+  }
+  .title {
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 600px) {
+  .product {
+    gap: 10px;
+  }
+  .images {
+    gap: 10px;
+  }
+  .img {
+    width: 80px;
+    height: 80px;
+  }
+  .mainImg {
+    max-width: 300px;
+    max-height: 300px;
+  }
+  .title {
+    font-size: 20px;
+  }
+  .content button {
+    min-width: 180px;
+  }
+}
+
+@media (max-width: 500px) {
+  .imagesItem {
+    gap: 10px;
+  }
+  .img {
+    width: 70px;
+    height: 70px;
+  }
+  .mainImg {
+    max-width: 230px;
+    max-height: 230px;
+  }
+
+  .content button {
+    min-width: 160px;
+  }
+}
+@media (max-width: 420px) {
+  .product {
+    align-items: center;
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 40px;
+  }
+  .images {
+    flex-direction: row;
+  }
+  .imagesItem {
+    flex-direction: column;
+  }
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  .title,
+  .price,
+  .category,
+  .socials {
+    margin-bottom: 10px;
+  }
+}

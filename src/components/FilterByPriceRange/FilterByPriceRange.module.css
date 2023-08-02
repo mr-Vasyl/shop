@@ -1,0 +1,29 @@
+.contentFilter {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
+}
+.inputFilter {
+  border: 1px solid grey;
+  border-radius: 5px;
+  padding: 5px 5px;
+}
+
+.contentFilter input:hover {
+  border: 1px solid #18853b;
+  transition: border 0.5s;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+@media (max-width: 425px) {
+  .inputFilter {
+    width: 140px;
+  }
+}
