@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 import styles from "./Search.module.css";
-import glass from "../../images/glass.svg";
+import glass from "images/glass.svg";
 
-import { getSearchProducts } from "../../store/searchSlice";
+import { getSearchProducts } from "store/searchSlice";
 import { SpinnerCircular } from "spinners-react";
 
 const Search = () => {

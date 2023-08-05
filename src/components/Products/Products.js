@@ -1,10 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 
-import { getProducts } from "../../store/productsSlice";
+import { getProducts } from "store/productsSlice";
 
-import Spinner from "../../widgets/Spinner";
-import Error from "../../widgets/Error";
+import Spinner from "widgets/Spinner";
+import Error from "widgets/Error";
 import ProductsList from "./ProductsList";
 
 const Products = () => {

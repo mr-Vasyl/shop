@@ -1,6 +1,6 @@
-import Categories from "../components/Categories/Categories";
-import FilterByPriceRange from "../components/FilterByPriceRange/FilterByPriceRange";
-import Products from "../components/Products/Products";
+import Categories from "components/Categories/Categories";
+import FilterByPriceRange from "components/FilterByPriceRange/FilterByPriceRange";
+import Products from "components/Products/Products";
 
 import styles from "./Shop.module.css";
 

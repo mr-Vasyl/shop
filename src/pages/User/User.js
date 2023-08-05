@@ -2,9 +2,9 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import styles from "./User.module.css";
 
-import RegisterForm from "../components/RegisterForm/RegisterForm";
-import UserLoginForm from "../components/UserLoginForm/UserLoginForm";
-import FormUpdate from "../components/FormUpdate/FormUpdate";
+import RegisterForm from "components/RegisterForm/RegisterForm";
+import UserLoginForm from "components/UserLoginForm/UserLoginForm";
+import FormUpdate from "components/FormUpdate/FormUpdate";
 
 const User = () => {
   const [state, setState] = useState(false);

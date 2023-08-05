@@ -54,7 +54,13 @@
 .link {
   align-self: center;
 }
-
+.isEmpty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #707070;
+  font-size: 20px;
+}
 @media (max-width: 849px) {
   .cardBottom h1 {
     font-size: 14px;

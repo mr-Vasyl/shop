@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { NavLink } from "react-router-dom";
 
 import styles from "./Categories.module.css";
-import { getCategories } from "../../store/categoriesSlice";
+import { getCategories } from "store/categoriesSlice";
 
 function Categories({ countCategory = 6 }) {
   const dispatch = useDispatch();

@@ -3,11 +3,11 @@ import { useEffect, useState } from "react";
 
 import styles from "./UserLoginForm.module.css";
 
-import Spinner from "../../widgets/Spinner";
-import Error from "../../widgets/Error";
+import Spinner from "widgets/Spinner";
+import Error from "widgets/Error";
 
-import { loginUsers, toggleForm } from "../../store/userSlice";
-import { blurHandlerLogin, validateFormLogin } from "../../utils/validate";
+import { loginUsers, toggleForm } from "store/userSlice";
+import { blurHandlerLogin, validateFormLogin } from "utils/validate";
 
 const UserLoginForm = ({ selector }) => {
   const [emailErrors, setEmailErrors] = useState(false);

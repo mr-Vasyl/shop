@@ -5,8 +5,8 @@ import styles from "./SingleCategory.module.css";
 
 import Categories from "../Categories/Categories";
 
-import { getRelatedProducts } from "../../store/productsSlice";
-import Spinner from "../../widgets/Spinner";
+import { getRelatedProducts } from "store/productsSlice";
+import Spinner from "widgets/Spinner";
 import ProductsList from "../Products/ProductsList";
 
 const SingleCategory = () => {

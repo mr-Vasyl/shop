@@ -1,15 +1,15 @@
 import { Route, Routes } from "react-router-dom";
-import { routes } from "../utils/routes";
+import { routes } from "utils/routes";
 
-import Home from "../pages/Home";
-import Shop from "../pages/Shop";
-import AddProduct from "../pages/AddProduct";
-import Cart from "../pages/Cart";
-import User from "../pages/User";
-import SingleCategory from "../components/SingleCategory/SingleCategory";
-import Product from "../../src/pages/Product";
-import Contacts from "../pages/Contacts";
-import Services from "../pages/Services";
+import Home from "pages/Home/Home";
+import Shop from "pages/Shop/Shop";
+import AddProduct from "pages/AddProduct/AddProduct";
+import Cart from "pages/Cart/Cart";
+import User from "pages/User/User";
+import SingleCategory from "components/SingleCategory/SingleCategory";
+import Product from "pages/Product/Product";
+import Contacts from "pages/Contacts/Contacts";
+import Services from "pages/Services/Services";
 
 const AppRoutes = () => (
   <Routes>

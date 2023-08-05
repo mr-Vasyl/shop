@@ -2,17 +2,14 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
-import { getCategories } from "../store/categoriesSlice";
-import { postAddProduct } from "../store/addProductSlice";
+import { getCategories } from "store/categoriesSlice";
+import { postAddProduct } from "store/addProductSlice";
 
-import {
-  blurHandlerAddProduct,
-  validateFormAddProduct,
-} from "../utils/validate";
+import { blurHandlerAddProduct, validateFormAddProduct } from "utils/validate";
 
 import styles from "./AddProduct.module.css";
-import Spinner from "./../widgets/Spinner";
-import Error from "./../widgets/Error";
+import Spinner from "widgets/Spinner";
+import Error from "widgets/Error";
 
 const AddProduct = () => {
   const [body, setBody] = useState({});

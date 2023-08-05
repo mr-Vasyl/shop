@@ -8,9 +8,9 @@ import "slick-carousel/slick/slick-theme.css";
 
 import styles from "./SliderProducts.module.css";
 
-import Spinner from "../../widgets/Spinner";
-import Error from "../../widgets/Error";
-import { getRandom } from "../../utils/plus";
+import Spinner from "widgets/Spinner";
+import Error from "widgets/Error";
+import { getRandom } from "utils/plus";
 
 const SliderProducts = ({ product = [], initialAmount = 10 }) => {
   const { list, isLoading, isError, message } = useSelector(
@@ -60,6 +60,14 @@ const SliderProducts = ({ product = [], initialAmount = 10 }) => {
   if (isLoading) return <Spinner />;
 
   if (isError) return <Error message={message} />;
+
+  if (product.length < 1) {
+    return (
+      <div className={styles.isEmpty}>
+        The products slider is temporarily empty
+      </div>
+    );
+  }
 
   return (
     <div className={styles.content}>

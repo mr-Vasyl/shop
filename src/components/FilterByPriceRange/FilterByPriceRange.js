@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { getFilterByPriceRangeProducts } from "../../store/searchSlice";
+import { getFilterByPriceRangeProducts } from "store/searchSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 import styles from "./FilterByPriceRange.module.css";
-import { setProductRange } from "../../store/productsSlice";
+import { setProductRange } from "store/productsSlice";
 
 function FilterByPriceRange() {
   const [filterRange, setFilterRange] = useState({ min: "", max: "" });

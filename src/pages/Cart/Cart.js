@@ -1,9 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
-import { totalAmount } from "../utils/plus";
-import { changeQuantityProduct, removeProductCart } from "../store/userSlice";
+import { totalAmount } from "utils/plus";
+import { changeQuantityProduct, removeProductCart } from "store/userSlice";
 
 import styles from "./Cart.module.css";
-import cartIcon from "../../src/images/cart.svg";
+import cartIcon from "images/cart.svg";
 
 const Cart = () => {
   const dispatch = useDispatch();

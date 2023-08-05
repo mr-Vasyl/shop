@@ -3,14 +3,14 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-import { getProduct } from "../store/productSlice";
-import { getCart } from "../store/userSlice";
+import { getProduct } from "store/productSlice";
+import { getCart } from "store/userSlice";
 import styles from "./Product.module.css";
 
-import Back from "../widgets/Back";
-import Socials from "../components/Socials/Socials";
-import Spinner from "../widgets/Spinner";
-import Error from "../widgets/Error";
+import Back from "widgets/Back";
+import Socials from "components/Socials/Socials";
+import Spinner from "widgets/Spinner";
+import Error from "widgets/Error";
 
 const Product = () => {
   const navigate = useNavigate();

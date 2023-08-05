@@ -2,15 +2,12 @@ import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
-import styles from "../../components/UserLoginForm/UserLoginForm.module.css";
-import Spinner from "../../widgets/Spinner";
-import Error from "../../widgets/Error";
+import styles from "components/UserLoginForm/UserLoginForm.module.css";
+import Spinner from "widgets/Spinner";
+import Error from "widgets/Error";
 
-import { createUser, toggleForm } from "../../store/userSlice";
-import {
-  blurHandlerRegister,
-  validateFormRegister,
-} from "../../utils/validate";
+import { createUser, toggleForm } from "store/userSlice";
+import { blurHandlerRegister, validateFormRegister } from "utils/validate";
 
 const RegisterForm = ({ selector }) => {
   const [values, setValues] = useState({

@@ -4,7 +4,7 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 
 import styles from "./ProductsList.module.css";
-import { quantityFilter } from "../../utils/plus";
+import { quantityFilter } from "utils/plus";
 
 function ProductsList({ list, products = [], initialAmount = 12 }) {
   const [count, setCount] = useState(initialAmount);
@@ -28,6 +28,9 @@ function ProductsList({ list, products = [], initialAmount = 12 }) {
 
   if (list.length < 1) {
     return <div className={styles.isEmpty}>Category is empty</div>;
+  }
+  if (products.length < 1) {
+    return <div className={styles.isEmpty}>Products are temporarily empty</div>;
   }
   return (
     <div className={styles.wrapper}>

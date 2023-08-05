@@ -1,7 +1,7 @@
 import { Fragment } from "react";
-import Header from "./components/Header/Header";
+import Header from "components/Header/Header";
 import AppRoutes from "./routes/AppRoutes";
-import Footer from "./components/Footer/Footer";
+import Footer from "components/Footer/Footer";
 import ScrollToTop from "./widgets/ScrollToTop";
 
 const App = () => {

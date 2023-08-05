@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { base_URL } from "../utils/baseUrl";
+import { base_URL } from "utils/baseUrl";
 import axios from "axios";
 
 export const postAddProduct = createAsyncThunk(

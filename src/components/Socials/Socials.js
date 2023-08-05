@@ -1,10 +1,10 @@
 import React from "react";
 import styles from "./Socials.module.css";
 
-import facebook from "../../images/facebook.svg";
-import instagram from "../../images/instagram.svg";
-import linkedin from "../../images/linkedin.svg";
-import twitter from "../../images/twitter.svg";
+import facebook from "images/facebook.svg";
+import instagram from "images/instagram.svg";
+import linkedin from "images/linkedin.svg";
+import twitter from "images/twitter.svg";
 
 function Socials() {
   return (

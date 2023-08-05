@@ -3,11 +3,11 @@ import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import PropTypes from "prop-types";
 
-import styles from "../../components/UserLoginForm/UserLoginForm.module.css";
-import { updateUser } from "../../store/userSlice";
-import Spinner from "../../widgets/Spinner";
-import Error from "../../widgets/Error";
-import { blurHandlerUpdate, validateFormUpdate } from "../../utils/validate";
+import styles from "components/UserLoginForm/UserLoginForm.module.css";
+import { updateUser } from "store/userSlice";
+import Spinner from "widgets/Spinner";
+import Error from "widgets/Error";
+import { blurHandlerUpdate, validateFormUpdate } from "utils/validate";
 
 function FormUpdate({ selector }) {
   const [values, setValues] = useState({

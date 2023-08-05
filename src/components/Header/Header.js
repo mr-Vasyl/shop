@@ -1,14 +1,14 @@
 import { NavLink } from "react-router-dom";
-import { routes } from "../../utils/routes";
+import { routes } from "utils/routes";
 import { useDispatch, useSelector } from "react-redux";
 
 import styles from "./Header.module.css";
 import Search from "../Search/Search";
-import { getLogOut } from "../../store/userSlice";
+import { getLogOut } from "store/userSlice";
 
-import logo from "../../images/shopCart.svg";
-import cartIcon from "../../images/cart.svg";
-import userIcon from "../../images/userIcon.svg";
+import logo from "images/shopCart.svg";
+import cartIcon from "images/cart.svg";
+import userIcon from "images/userIcon.svg";
 
 const Header = () => {
   const dispatch = useDispatch();
