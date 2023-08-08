@@ -3,11 +3,12 @@ import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
 import styles from "components/UserLoginForm/UserLoginForm.module.css";
-import Spinner from "widgets/Spinner";
-import Error from "widgets/Error";
+import Spinner from "widgets/Spinner/Spinner";
+import Error from "widgets/Error/Error";
 
-import { createUser, toggleForm } from "store/userSlice";
+import { createUser, toggleForm } from "store/userSlice/userSlice";
 import { blurHandlerRegister, validateFormRegister } from "utils/validate";
+import classNames from "classnames";
 
 const RegisterForm = ({ selector }) => {
   const [values, setValues] = useState({
@@ -29,7 +30,7 @@ const RegisterForm = ({ selector }) => {
   });
 
   const dispatch = useDispatch();
-  const { currentUser, isError, isLoading, message } = selector;
+  const { currentUser, isError, isLoading } = selector;
 
   useEffect(() => {
     if (currentUser && currentUser.email) {
@@ -80,7 +81,11 @@ const RegisterForm = ({ selector }) => {
           autoComplete="on"
           onBlur={onblurHandler}
           onChange={handleChange}
-          className={nameErrors ? styles["error"] : styles["inp"]}
+          /*  className={nameErrors ? styles.error : styles.inp} */
+          className={classNames({
+            [styles.error]: nameErrors,
+            [styles.inp]: !nameErrors,
+          })}
         />
         {formErrors.name && (
           <div className={styles.errorMessage}>{formErrors.name}</div>
@@ -134,7 +139,7 @@ const RegisterForm = ({ selector }) => {
       <button type="submit" className={styles.btnToggle}>
         Register
       </button>
-      {isError && <Error message={message} />}
+      {isError && <Error isError={isError} />}
     </form>
   );
 };

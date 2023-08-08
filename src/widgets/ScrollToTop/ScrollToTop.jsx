@@ -22,12 +22,10 @@ const ScrollToTop = () => {
     });
   };
 
+  if (!isVisible) return null;
+
   return (
-    <button
-      className={styles.scrollTop}
-      style={{ display: isVisible ? "block" : "none" }}
-      onClick={goTop}
-    >
+    <button className={styles.scrollTop} onClick={goTop}>
       <FaArrowCircleUp />
     </button>
   );

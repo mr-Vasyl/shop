@@ -18,9 +18,8 @@ const categoriesSlice = createSlice({
   name: "categories",
   initialState: {
     list: [],
-    isError: false,
+    isError: "",
     isLoading: false,
-    message: "",
   },
 
   extraReducers: (builder) => {
@@ -32,12 +31,12 @@ const categoriesSlice = createSlice({
       state.list = payload;
     });
     builder.addCase(getCategories.rejected, (state, action) => {
-      state.isError = true;
       state.isLoading = false;
-      state.message = action.payload.message;
+      state.isError = action.payload.message;
       state.list = [];
     });
   },
 });
 
 export default categoriesSlice.reducer;
+export const categoriesSelector = (state) => state.categories;

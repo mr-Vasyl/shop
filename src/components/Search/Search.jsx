@@ -5,14 +5,17 @@ import { Link } from "react-router-dom";
 import styles from "./Search.module.css";
 import glass from "images/glass.svg";
 
-import { getSearchProducts } from "store/searchSlice";
+import {
+  getSearchProducts,
+  searchSelector,
+} from "store/searchSlice/searchSlice";
 import { SpinnerCircular } from "spinners-react";
 
 const Search = () => {
   const [valueSearch, setValueSearch] = useState("");
 
   const dispatch = useDispatch();
-  const { search, isLoading } = useSelector((state) => state.search);
+  const { search, isLoading, isError } = useSelector(searchSelector);
 
   useEffect(() => {
     dispatch(getSearchProducts(valueSearch));
@@ -25,6 +28,9 @@ const Search = () => {
   const clearInput = () => {
     setValueSearch("");
   };
+  if (isError) {
+    console.log(isError);
+  }
 
   return (
     <div className={styles.search}>

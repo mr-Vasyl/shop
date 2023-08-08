@@ -5,15 +5,18 @@ import styles from "./SingleCategory.module.css";
 
 import Categories from "../Categories/Categories";
 
-import { getRelatedProducts } from "store/productsSlice";
-import Spinner from "widgets/Spinner";
+import {
+  getRelatedProducts,
+  productsSelector,
+} from "store/productsSlice/productsSlice";
+import Spinner from "widgets/Spinner/Spinner";
 import ProductsList from "../Products/ProductsList";
 
 const SingleCategory = () => {
   const params = useParams();
   const dispatch = useDispatch();
 
-  const { related, isLoading } = useSelector((state) => state.products);
+  const { related, isLoading } = useSelector(productsSelector);
 
   useEffect(() => {
     dispatch(getRelatedProducts(params.id));

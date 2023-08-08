@@ -1,6 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
 import { totalAmount } from "utils/plus";
-import { changeQuantityProduct, removeProductCart } from "store/userSlice";
+import {
+  changeQuantityProduct,
+  removeProductCart,
+  usersSelector,
+} from "store/userSlice/userSlice";
 
 import styles from "./Cart.module.css";
 import cartIcon from "images/cart.svg";
@@ -8,7 +12,7 @@ import cartIcon from "images/cart.svg";
 const Cart = () => {
   const dispatch = useDispatch();
 
-  const { cart } = useSelector((state) => state.users);
+  const { cart } = useSelector(usersSelector);
   const total = totalAmount(cart);
 
   const removeProduct = (id) => {

@@ -2,17 +2,22 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
-import { getCategories } from "store/categoriesSlice";
-import { postAddProduct } from "store/addProductSlice";
+import {
+  categoriesSelector,
+  getCategories,
+} from "store/categoriesSlice/categoriesSlice";
+import {
+  addProductSelector,
+  postAddProduct,
+} from "store/addProductSlice/addProductSlice";
 
 import { blurHandlerAddProduct, validateFormAddProduct } from "utils/validate";
 
 import styles from "./AddProduct.module.css";
-import Spinner from "widgets/Spinner";
-import Error from "widgets/Error";
+import Spinner from "widgets/Spinner/Spinner";
+import Error from "widgets/Error/Error";
 
 const AddProduct = () => {
-  const [body, setBody] = useState({});
   const [values, setValues] = useState({
     title: "",
     price: "",
@@ -34,18 +39,12 @@ const AddProduct = () => {
 
   const dispatch = useDispatch();
 
-  const { list } = useSelector((state) => state.categories);
-  const { product, isLoading, isError, message } = useSelector(
-    (state) => state.addProduct
-  );
+  const { list } = useSelector(categoriesSelector);
+  const { product, isLoading, isError } = useSelector(addProductSelector);
 
   useEffect(() => {
     dispatch(getCategories());
   }, [dispatch]);
-
-  useEffect(() => {
-    dispatch(postAddProduct(body));
-  }, [body, dispatch]);
 
   const handleChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
@@ -77,8 +76,7 @@ const AddProduct = () => {
         ? values.images.split(",").filter((_, indx) => indx < 3)
         : [],
     };
-
-    setBody(item);
+    dispatch(postAddProduct(item));
 
     setValues({
       title: "",
@@ -98,6 +96,7 @@ const AddProduct = () => {
   };
 
   if (isLoading) return <Spinner />;
+  if (isError) return <Error isError={isError} />;
 
   return (
     <div className={styles.products}>
@@ -184,9 +183,6 @@ const AddProduct = () => {
         <button className="btn" type="submit">
           add product
         </button>
-        {/*  {isError && (
-          <Error message={message} content={"Refresh and try again"} />
-        )} */}
       </form>
 
       {Object.keys(product).length > 0 && (

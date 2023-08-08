@@ -5,11 +5,12 @@ import styles from "./User.module.css";
 import RegisterForm from "components/RegisterForm/RegisterForm";
 import UserLoginForm from "components/UserLoginForm/UserLoginForm";
 import FormUpdate from "components/FormUpdate/FormUpdate";
+import { usersSelector } from "store/userSlice/userSlice";
 
 const User = () => {
   const [state, setState] = useState(false);
 
-  const selector = useSelector((state) => state.users);
+  const selector = useSelector(usersSelector);
 
   const onToggle = () => {
     setState(true);

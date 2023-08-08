@@ -31,9 +31,8 @@ const productsSlice = createSlice({
   name: "products",
   initialState: {
     list: [],
-    isError: false,
+    isError: "",
     isLoading: false,
-    message: "",
     related: [],
     search: [],
   },
@@ -52,9 +51,8 @@ const productsSlice = createSlice({
       state.list = payload;
     });
     builder.addCase(getProducts.rejected, (state, action) => {
-      state.isError = true;
       state.isLoading = false;
-      state.message = action.payload.message;
+      state.isError = action.payload.message;
       state.list = [];
     });
 
@@ -66,12 +64,13 @@ const productsSlice = createSlice({
       state.related = payload;
     });
     builder.addCase(getRelatedProducts.rejected, (state, action) => {
-      state.isError = true;
       state.isLoading = false;
-      state.message = action.payload.message;
+      state.isError = action.payload.message;
       state.related = [];
     });
   },
 });
 export const { setProductRange } = productsSlice.actions;
 export default productsSlice.reducer;
+
+export const productsSelector = (state) => state.products;

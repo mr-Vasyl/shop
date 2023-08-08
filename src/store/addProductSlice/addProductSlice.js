@@ -24,28 +24,26 @@ const addProductSlice = createSlice({
   name: "addProduct",
   initialState: {
     product: [],
-    isError: false,
+    isError: "",
     isLoading: false,
-    message: "",
   },
 
   extraReducers: (builder) => {
     builder.addCase(postAddProduct.pending, (state) => {
       state.isLoading = true;
-      state.isError = false;
     });
     builder.addCase(postAddProduct.fulfilled, (state, { payload }) => {
       state.isLoading = false;
-      state.isError = false;
+      state.isError = "";
       state.product = payload;
     });
     builder.addCase(postAddProduct.rejected, (state, action) => {
       state.isLoading = false;
-      state.isError = true;
-      state.message =
-        action.payload || "An error occurred, please try again later.";
+      state.isError = action.payload.message;
     });
   },
 });
 
 export default addProductSlice.reducer;
+
+export const addProductSelector = (state) => state.addProduct;

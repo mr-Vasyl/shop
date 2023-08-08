@@ -18,9 +18,8 @@ const productSlice = createSlice({
   name: "product",
   initialState: {
     oneProduct: null,
-    isError: false,
+    isError: "",
     isLoading: false,
-    message: "",
   },
 
   extraReducers: (builder) => {
@@ -32,12 +31,12 @@ const productSlice = createSlice({
       state.oneProduct = payload;
     });
     builder.addCase(getProduct.rejected, (state, action) => {
-      state.isError = true;
+      state.isError = action.payload.message;
       state.isLoading = false;
-      state.message = action.payload.message;
       state.oneProduct = null;
     });
   },
 });
 
 export default productSlice.reducer;
+export const productSelector = (state) => state.product;

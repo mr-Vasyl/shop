@@ -1,1 +1,1 @@
-export const base_URL = "https://api.escuelajs.co/api/v1";
+export const base_URL = process.env.REACT_APP_API_BASE_URL ?? "";

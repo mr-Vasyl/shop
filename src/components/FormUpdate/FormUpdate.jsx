@@ -4,9 +4,9 @@ import { useEffect } from "react";
 import PropTypes from "prop-types";
 
 import styles from "components/UserLoginForm/UserLoginForm.module.css";
-import { updateUser } from "store/userSlice";
-import Spinner from "widgets/Spinner";
-import Error from "widgets/Error";
+import { updateUser } from "store/userSlice/userSlice";
+import Spinner from "widgets/Spinner/Spinner";
+import Error from "widgets/Error/Error";
 import { blurHandlerUpdate, validateFormUpdate } from "utils/validate";
 
 function FormUpdate({ selector }) {
@@ -22,7 +22,7 @@ function FormUpdate({ selector }) {
     avatar: "",
   });
 
-  const { currentUser, isLoading, isError, message } = selector;
+  const { currentUser, isLoading, isError } = selector;
 
   const dispatch = useDispatch();
 
@@ -56,7 +56,7 @@ function FormUpdate({ selector }) {
   if (isLoading) return <Spinner />;
 
   if (isError) {
-    return <Error message={message} />;
+    return <Error isError={isError} />;
   }
   return (
     <form className={styles.form} onSubmit={handleSubmit}>

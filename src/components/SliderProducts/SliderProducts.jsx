@@ -8,14 +8,13 @@ import "slick-carousel/slick/slick-theme.css";
 
 import styles from "./SliderProducts.module.css";
 
-import Spinner from "widgets/Spinner";
-import Error from "widgets/Error";
+import Spinner from "widgets/Spinner/Spinner";
+import Error from "widgets/Error/Error";
 import { getRandom } from "utils/plus";
+import { productsSelector } from "store/productsSlice/productsSlice";
 
 const SliderProducts = ({ product = [], initialAmount = 10 }) => {
-  const { list, isLoading, isError, message } = useSelector(
-    (state) => state.products
-  );
+  const { list, isLoading, isError } = useSelector(productsSelector);
 
   if (list.length) {
     product = getRandom(list, initialAmount);
@@ -59,7 +58,7 @@ const SliderProducts = ({ product = [], initialAmount = 10 }) => {
 
   if (isLoading) return <Spinner />;
 
-  if (isError) return <Error message={message} />;
+  if (isError) return <Error isError={isError} />;
 
   if (product.length < 1) {
     return (

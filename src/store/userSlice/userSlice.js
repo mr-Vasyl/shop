@@ -50,9 +50,9 @@ const userSlice = createSlice({
   initialState: {
     currentUser: null,
     cart: [],
-    isError: false,
+    isError: "",
     isLoading: false,
-    message: "",
+
     showForm: false,
   },
 
@@ -89,43 +89,39 @@ const userSlice = createSlice({
     getLogOut: (state) => {
       state.currentUser = null;
       state.showForm = false;
-      state.isError = false;
+      state.isError = "";
       state.isLoading = false;
-      state.message = "";
     },
   },
 
   extraReducers: (builder) => {
     builder.addCase(loginUsers.pending, (state) => {
       state.isLoading = true;
-      state.message = "";
-      state.isError = false;
+      state.isError = "";
     });
     builder.addCase(loginUsers.fulfilled, (state, { payload }) => {
       state.isLoading = false;
       state.currentUser = payload;
     });
     builder.addCase(loginUsers.rejected, (state, action) => {
-      state.isError = true;
       state.isLoading = false;
-      state.message = action.payload.message;
+      state.isError = action.payload.message;
       state.currentUser = null;
     });
 
     builder.addCase(createUser.pending, (state) => {
       state.isLoading = true;
-      state.isError = false;
+      state.isError = "";
     });
     builder.addCase(createUser.fulfilled, (state, action) => {
       state.isLoading = false;
       state.currentUser = action.payload;
-      state.isError = false;
-      state.message = "";
+      state.isError = "";
     });
     builder.addCase(createUser.rejected, (state, action) => {
       state.isLoading = false;
-      state.isError = true;
-      state.message = action.payload.message;
+
+      state.isError = action.payload.message;
       state.currentUser = null;
     });
 
@@ -138,8 +134,8 @@ const userSlice = createSlice({
     });
     builder.addCase(updateUser.rejected, (state, action) => {
       state.isLoading = false;
-      state.isError = true;
-      state.message = action.payload.message;
+
+      state.isError = action.payload.message;
       state.currentUser = null;
     });
   },
@@ -153,3 +149,4 @@ export const {
   changeQuantityProduct,
 } = userSlice.actions;
 export default userSlice.reducer;
+export const usersSelector = (state) => state.users;

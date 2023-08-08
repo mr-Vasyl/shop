@@ -27,27 +27,26 @@ export const getFilterByPriceRangeProducts = createAsyncThunk(
   }
 );
 
-const productsSlice = createSlice({
+const searchSlice = createSlice({
   name: "search",
   initialState: {
-    isError: false,
+    isError: "",
     isLoading: false,
-    message: "",
     search: [],
   },
 
   extraReducers: (builder) => {
     builder.addCase(getSearchProducts.pending, (state) => {
       state.isLoading = true;
+      state.isError = "";
     });
     builder.addCase(getSearchProducts.fulfilled, (state, { payload }) => {
       state.isLoading = false;
       state.search = payload;
     });
     builder.addCase(getSearchProducts.rejected, (state, action) => {
-      state.isError = true;
       state.isLoading = false;
-      state.message = action.payload.message;
+      state.isError = action.payload.message;
       state.search = [];
     });
 
@@ -62,12 +61,12 @@ const productsSlice = createSlice({
       }
     );
     builder.addCase(getFilterByPriceRangeProducts.rejected, (state, action) => {
-      state.isError = true;
       state.isLoading = false;
-      state.message = action.payload.message;
+      state.isError = action.payload.message;
       state.search = [];
     });
   },
 });
 
-export default productsSlice.reducer;
+export default searchSlice.reducer;
+export const searchSelector = (state) => state.search;

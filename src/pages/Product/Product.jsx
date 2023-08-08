@@ -3,14 +3,14 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-import { getProduct } from "store/productSlice";
-import { getCart } from "store/userSlice";
+import { getProduct, productSelector } from "store/productSlice/productSlice";
+import { getCart } from "store/userSlice/userSlice";
 import styles from "./Product.module.css";
 
-import Back from "widgets/Back";
+import Back from "widgets/Back/Back";
 import Socials from "components/Socials/Socials";
-import Spinner from "widgets/Spinner";
-import Error from "widgets/Error";
+import Spinner from "widgets/Spinner/Spinner";
+import Error from "widgets/Error/Error";
 
 const Product = () => {
   const navigate = useNavigate();
@@ -20,9 +20,8 @@ const Product = () => {
   const params = useParams();
   const dispatch = useDispatch();
 
-  const { oneProduct, isLoading, isError, message } = useSelector(
-    (state) => state.product
-  );
+  const { oneProduct, isLoading, isError, message } =
+    useSelector(productSelector);
 
   useEffect(() => {
     dispatch(getProduct(params.id));
@@ -43,7 +42,7 @@ const Product = () => {
   };
 
   if (isLoading) return <Spinner />;
-  if (isError) return <Error message={message} />;
+  if (isError) return <Error isError={isError} />;
 
   return (
     oneProduct && (

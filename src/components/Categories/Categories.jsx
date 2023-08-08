@@ -3,7 +3,10 @@ import React, { useEffect } from "react";
 import { NavLink } from "react-router-dom";
 
 import styles from "./Categories.module.css";
-import { getCategories } from "store/categoriesSlice";
+import {
+  categoriesSelector,
+  getCategories,
+} from "store/categoriesSlice/categoriesSlice";
 
 function Categories({ countCategory = 6 }) {
   const dispatch = useDispatch();
@@ -12,9 +15,7 @@ function Categories({ countCategory = 6 }) {
     dispatch(getCategories());
   }, [dispatch]);
 
-  const { list, isLoading, isError, message } = useSelector(
-    (state) => state.categories
-  );
+  const { list, isLoading, isError } = useSelector(categoriesSelector);
 
   if (isLoading) return <span>loading...</span>;
 
@@ -22,7 +23,7 @@ function Categories({ countCategory = 6 }) {
     <>
       <ul className={styles.category}>
         {isError ? (
-          <span>{message}</span>
+          <span>{isError}</span>
         ) : (
           list
             .filter((_, indx) => indx < countCategory)
