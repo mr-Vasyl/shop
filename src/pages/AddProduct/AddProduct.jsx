@@ -11,31 +11,15 @@ import {
   postAddProduct,
 } from "store/addProductSlice/addProductSlice";
 
-import { blurHandlerAddProduct, validateFormAddProduct } from "utils/validate";
+import { fieldsAddProduct } from "utils/validate";
 
 import styles from "./AddProduct.module.css";
 import Spinner from "widgets/Spinner/Spinner";
 import Error from "widgets/Error/Error";
+import FormReact from "components/FormReact/FormReact";
 
 const AddProduct = () => {
-  const [values, setValues] = useState({
-    title: "",
-    price: "",
-    description: "",
-    category: "1",
-    images: "",
-  });
-
-  const [titleErrors, setTitleErrors] = useState(false);
-  const [priceErrors, setPriceErrors] = useState(false);
-  const [descriptionErrors, setDescriptionErrors] = useState(false);
-  const [imagesErrors, setImagesErrors] = useState(false);
-  const [formErrors, setFormErrors] = useState({
-    title: "",
-    price: "",
-    description: "",
-    images: "",
-  });
+  const [values, setValues] = useState("1");
 
   const dispatch = useDispatch();
 
@@ -46,54 +30,38 @@ const AddProduct = () => {
     dispatch(getCategories());
   }, [dispatch]);
 
-  const handleChange = (e) => {
-    setValues({ ...values, [e.target.name]: e.target.value });
-  };
-
-  const onblurHandler = (e) => {
-    blurHandlerAddProduct(
-      e,
-      setTitleErrors,
-      setPriceErrors,
-      setDescriptionErrors,
-      setImagesErrors,
-      values
-    );
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    const isValid = validateFormAddProduct(values, setFormErrors);
-    if (!isValid) return;
-
-    let item = {
-      title: values.title,
-      price: +values.price,
-      description: values.description,
-      categoryId: +values.category || 1,
-      images: values.images.length
-        ? values.images.split(",").filter((_, indx) => indx < 3)
+  const onSubmit = (reset) => (data) => {
+    let body = {
+      title: data.title,
+      price: +data.price,
+      description: data.description,
+      categoryId: +values,
+      images: data.images.length
+        ? data.images.split(",").filter((_, indx) => indx < 3)
         : [],
     };
-    dispatch(postAddProduct(item));
 
-    setValues({
-      title: "",
-      price: "",
-      description: "",
-      category: "1",
-      images: "",
-    });
-
-    setFormErrors({
-      title: "",
-      price: "",
-      description: "",
-      category: "1",
-      images: "",
-    });
+    dispatch(postAddProduct(body));
+    reset();
   };
+
+  const handleChange = (e) => {
+    setValues(e.target.value);
+  };
+  const selectField = (
+    <select
+      name="category"
+      id="category"
+      value={values}
+      onChange={handleChange}
+    >
+      {list.map(({ id, name }) => (
+        <option value={id} key={id}>
+          {name}
+        </option>
+      ))}
+    </select>
+  );
 
   if (isLoading) return <Spinner />;
   if (isError) return <Error isError={isError} />;
@@ -101,89 +69,12 @@ const AddProduct = () => {
   return (
     <div className={styles.products}>
       <div className={styles.title}>Create product:</div>
-      <form className={styles.form} onSubmit={handleSubmit}>
-        <div className={styles.group}>
-          <input
-            type="text"
-            id="title"
-            name="title"
-            value={values.title}
-            autoComplete="off"
-            placeholder="Title:"
-            onBlur={onblurHandler}
-            onChange={handleChange}
-            className={titleErrors ? styles["error"] : styles["inp"]}
-          />
-          {formErrors.title && (
-            <div className={styles.errorMessage}>{formErrors.title}</div>
-          )}
-        </div>
-        <div className={styles.group}>
-          <input
-            type="number"
-            id="price"
-            name="price"
-            value={values.price}
-            autoComplete="off"
-            placeholder="Price:"
-            onBlur={onblurHandler}
-            onChange={handleChange}
-            className={priceErrors ? styles["error"] : styles["inp"]}
-          />
-          {formErrors.price && (
-            <div className={styles.errorMessage}>{formErrors.price}</div>
-          )}
-        </div>
-        <div className={styles.group}>
-          <input
-            type="text"
-            name="description"
-            id="description"
-            value={values.description}
-            autoComplete="off"
-            placeholder="Description:"
-            onBlur={onblurHandler}
-            onChange={handleChange}
-            className={descriptionErrors ? styles["error"] : styles["inp"]}
-          />
-          {formErrors.description && (
-            <div className={styles.errorMessage}>{formErrors.description}</div>
-          )}
-        </div>
-        <div className={styles.group}>
-          <select
-            name="category"
-            id="category"
-            value={values.category}
-            onChange={handleChange}
-          >
-            {list.map(({ id, name }) => (
-              <option value={id} key={id}>
-                {name}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className={styles.group}>
-          <input
-            type="text"
-            id="images"
-            name="images"
-            value={values.images}
-            autoComplete="off"
-            placeholder="Link to Images (link,link...):"
-            onBlur={onblurHandler}
-            onChange={handleChange}
-            className={imagesErrors ? styles["error"] : styles["inp"]}
-          />
-          {formErrors.images && (
-            <div className={styles.errorMessage}>{formErrors.images}</div>
-          )}
-        </div>
-        <button className="btn" type="submit">
-          add product
-        </button>
-      </form>
+      <FormReact
+        onSubmit={onSubmit}
+        fields={fieldsAddProduct}
+        btn="add product"
+        selectField={selectField}
+      />
 
       {Object.keys(product).length > 0 && (
         <div className={styles.added} key={product.id}>

@@ -22,6 +22,7 @@ const User = () => {
   return (
     <div className={styles.user}>
       <div className={styles.account}>My account</div>
+
       {selector.showForm ? (
         <div>
           <div className={styles.wrapper}>

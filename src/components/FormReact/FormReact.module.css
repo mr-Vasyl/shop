@@ -1,15 +1,26 @@
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: 45px;
-  max-width: 500px;
-}
 .form button {
   color: #fff;
   height: 50px;
   background-color: black;
   max-width: 500px;
   text-transform: uppercase;
+  font-weight: 700;
+  border: 1px solid;
+  border-radius: 5px;
+}
+.form button:hover {
+  transition: background-color 0.5s;
+  background-color: #fff;
+  color: black;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 45px;
+  max-width: 500px;
+  justify-content: center;
+  text-align: center;
+  margin: 0 auto;
 }
 form div {
   display: flex;
@@ -19,6 +30,13 @@ form div {
 }
 .inp {
   border-bottom: 1px solid #999;
+}
+.form select {
+  border-bottom: 1px solid #999;
+}
+.form select:active,
+select:focus {
+  outline: none;
 }
 
 input.error {
@@ -40,7 +58,8 @@ input.error {
   .form button {
     width: 400px;
   }
-  .form input {
+  .form input,
+  select {
     width: 400px;
   }
 }
@@ -49,7 +68,8 @@ input.error {
   .form button {
     width: 310px;
   }
-  .form input {
+  .form input,
+  select {
     width: 310px;
   }
 }
