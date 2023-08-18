@@ -2,18 +2,21 @@ import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
+import { SpinnerCircular } from "spinners-react";
+
 import styles from "./Search.module.css";
 import glass from "images/glass.svg";
 
-import { SpinnerCircular } from "spinners-react";
 import {
   categoriesSelector,
   getSearchProducts,
 } from "store/slice/categoriesSlice";
+import useDebounce from "config/useDebounce";
 
 const Search = () => {
   const [valueSearch, setValueSearch] = useState("");
   const amountRef = useRef(false);
+  const debouncedValue = useDebounce(valueSearch, 1000);
 
   const dispatch = useDispatch();
   const { search, isLoadingSearch } = useSelector(categoriesSelector);
@@ -23,7 +26,8 @@ const Search = () => {
       dispatch(getSearchProducts(valueSearch));
     }
     amountRef.current = true;
-  }, [dispatch, valueSearch]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, debouncedValue]);
 
   const handleSearch = (event) => {
     setValueSearch(event.target.value);
