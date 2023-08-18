@@ -4,7 +4,7 @@ import {
   changeQuantityProduct,
   removeProductCart,
   usersSelector,
-} from "store/userSlice/userSlice";
+} from "store/slice/userSlice";
 
 import styles from "./Cart.module.css";
 import cartIcon from "images/cart.svg";

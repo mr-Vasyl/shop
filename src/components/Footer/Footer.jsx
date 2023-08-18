@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { routes } from "../../utils/routes";
+import { routes } from "../../config/routes";
 
 import styles from "./Footer.module.css";
 import Socials from "components/Socials/Socials";

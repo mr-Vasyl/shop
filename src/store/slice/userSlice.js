@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { base_URL } from "utils/baseUrl";
+import { base_URL } from "config/baseUrl";
 import axios from "axios";
 
 export const createUser = createAsyncThunk(
@@ -26,7 +26,6 @@ export const updateUser = createAsyncThunk(
     }
   }
 );
-
 export const loginUsers = createAsyncThunk(
   "users/loginUser",
   async (body, thunkAPI) => {
@@ -50,9 +49,8 @@ const userSlice = createSlice({
   initialState: {
     currentUser: null,
     cart: [],
-    isError: "",
+    error: "",
     isLoading: false,
-
     showForm: false,
   },
 
@@ -89,7 +87,7 @@ const userSlice = createSlice({
     getLogOut: (state) => {
       state.currentUser = null;
       state.showForm = false;
-      state.isError = "";
+      state.error = "";
       state.isLoading = false;
     },
   },
@@ -97,7 +95,7 @@ const userSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(loginUsers.pending, (state) => {
       state.isLoading = true;
-      state.isError = "";
+      state.error = "";
     });
     builder.addCase(loginUsers.fulfilled, (state, { payload }) => {
       state.isLoading = false;
@@ -105,23 +103,23 @@ const userSlice = createSlice({
     });
     builder.addCase(loginUsers.rejected, (state, action) => {
       state.isLoading = false;
-      state.isError = action.payload.message;
+      state.error = action.payload.message;
       state.currentUser = null;
     });
 
     builder.addCase(createUser.pending, (state) => {
       state.isLoading = true;
-      state.isError = "";
+      state.error = "";
     });
     builder.addCase(createUser.fulfilled, (state, action) => {
       state.isLoading = false;
       state.currentUser = action.payload;
-      state.isError = "";
+      state.error = "";
     });
     builder.addCase(createUser.rejected, (state, action) => {
       state.isLoading = false;
 
-      state.isError = action.payload.message;
+      state.error = action.payload.message;
       state.currentUser = null;
     });
 
@@ -135,7 +133,7 @@ const userSlice = createSlice({
     builder.addCase(updateUser.rejected, (state, action) => {
       state.isLoading = false;
 
-      state.isError = action.payload.message;
+      state.error = action.payload.message;
       state.currentUser = null;
     });
   },

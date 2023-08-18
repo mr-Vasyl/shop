@@ -1,24 +1,28 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 import styles from "./Search.module.css";
 import glass from "images/glass.svg";
 
-import {
-  getSearchProducts,
-  searchSelector,
-} from "store/searchSlice/searchSlice";
 import { SpinnerCircular } from "spinners-react";
+import {
+  categoriesSelector,
+  getSearchProducts,
+} from "store/slice/categoriesSlice";
 
 const Search = () => {
   const [valueSearch, setValueSearch] = useState("");
+  const amountRef = useRef(false);
 
   const dispatch = useDispatch();
-  const { search, isLoading, isError } = useSelector(searchSelector);
+  const { search, isLoadingSearch } = useSelector(categoriesSelector);
 
   useEffect(() => {
-    dispatch(getSearchProducts(valueSearch));
+    if (amountRef.current) {
+      dispatch(getSearchProducts(valueSearch));
+    }
+    amountRef.current = true;
   }, [dispatch, valueSearch]);
 
   const handleSearch = (event) => {
@@ -28,9 +32,6 @@ const Search = () => {
   const clearInput = () => {
     setValueSearch("");
   };
-  if (isError) {
-    console.log(isError);
-  }
 
   return (
     <div className={styles.search}>
@@ -52,7 +53,7 @@ const Search = () => {
       <div
         className={`${valueSearch.length > 0 ? styles.content : styles.none}`}
       >
-        {isLoading ? (
+        {isLoadingSearch ? (
           <SpinnerCircular size={30} />
         ) : !search.length ? (
           "No results"

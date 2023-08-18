@@ -4,13 +4,13 @@ import { Fragment, useEffect } from "react";
 import Spinner from "widgets/Spinner/Spinner";
 import Error from "widgets/Error/Error";
 
-import { loginUsers, toggleForm } from "store/userSlice/userSlice";
+import { loginUsers, toggleForm } from "store/slice/userSlice";
 import FormReact from "components/FormReact/FormReact";
-import { fieldsLogin } from "utils/validate";
+import { fieldsLogin } from "config/validate";
 
 const UserLoginForm = ({ selector }) => {
   const dispatch = useDispatch();
-  const { currentUser, isError, isLoading } = selector;
+  const { currentUser, error, isLoading } = selector;
 
   useEffect(() => {
     if (currentUser && currentUser.email) {
@@ -31,9 +31,7 @@ const UserLoginForm = ({ selector }) => {
   return (
     <Fragment>
       <FormReact onSubmit={onSubmit} fields={fieldsLogin} btn="log in" />
-      {isError && (
-        <Error isError={isError} content={"Incorrect login or password"} />
-      )}
+      {error && <Error error={error} content={"Incorrect login or password"} />}
     </Fragment>
   );
 };

@@ -2,21 +2,14 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
-import {
-  categoriesSelector,
-  getCategories,
-} from "store/categoriesSlice/categoriesSlice";
-import {
-  addProductSelector,
-  postAddProduct,
-} from "store/addProductSlice/addProductSlice";
-
-import { fieldsAddProduct } from "utils/validate";
+import { categoriesSelector, getCategories } from "store/slice/categoriesSlice";
+import { fieldsAddProduct } from "config/validate";
 
 import styles from "./AddProduct.module.css";
 import Spinner from "widgets/Spinner/Spinner";
 import Error from "widgets/Error/Error";
 import FormReact from "components/FormReact/FormReact";
+import { postAddProduct, productsSelector } from "store/slice/productsSlice";
 
 const AddProduct = () => {
   const [values, setValues] = useState("1");
@@ -24,7 +17,7 @@ const AddProduct = () => {
   const dispatch = useDispatch();
 
   const { list } = useSelector(categoriesSelector);
-  const { product, isLoading, isError } = useSelector(addProductSelector);
+  const { product, isLoading, error } = useSelector(productsSelector);
 
   useEffect(() => {
     dispatch(getCategories());
@@ -64,7 +57,7 @@ const AddProduct = () => {
   );
 
   if (isLoading) return <Spinner />;
-  if (isError) return <Error isError={isError} />;
+  if (error) return <Error error={error} />;
 
   return (
     <div className={styles.products}>

@@ -5,14 +5,14 @@ import PropTypes from "prop-types";
 import Spinner from "widgets/Spinner/Spinner";
 import Error from "widgets/Error/Error";
 
-import { createUser, toggleForm } from "store/userSlice/userSlice";
+import { createUser, toggleForm } from "store/slice/userSlice";
 
 import FormReact from "components/FormReact/FormReact";
-import { fieldsRegister } from "utils/validate";
+import { fieldsRegister } from "config/validate";
 
 const RegisterForm = ({ selector }) => {
   const dispatch = useDispatch();
-  const { currentUser, isError, isLoading } = selector;
+  const { currentUser, error, isLoading } = selector;
 
   useEffect(() => {
     if (currentUser && currentUser.email) {
@@ -33,7 +33,7 @@ const RegisterForm = ({ selector }) => {
   return (
     <Fragment>
       <FormReact onSubmit={onSubmit} fields={fieldsRegister} btn="register" />
-      {isError && <Error isError={isError} />}
+      {error && <Error error={error} />}
     </Fragment>
   );
 };

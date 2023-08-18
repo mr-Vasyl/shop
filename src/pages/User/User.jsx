@@ -5,7 +5,7 @@ import styles from "./User.module.css";
 import RegisterForm from "components/RegisterForm/RegisterForm";
 import UserLoginForm from "components/UserLoginForm/UserLoginForm";
 import FormUpdate from "components/FormUpdate/FormUpdate";
-import { usersSelector } from "store/userSlice/userSlice";
+import { usersSelector } from "store/slice/userSlice";
 
 const User = () => {
   const [state, setState] = useState(false);

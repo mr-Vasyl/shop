@@ -1,10 +1,10 @@
 import styles from "./Error.module.css";
 
-function Error({ isError, content }) {
+function Error({ error, content }) {
   return (
     <div className={styles.error}>
       <div className={styles.message} styles={{ color: "red" }}>
-        {isError}! {content}
+        {error}! <p>{content}</p>
       </div>
     </div>
   );

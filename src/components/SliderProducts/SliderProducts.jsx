@@ -11,10 +11,10 @@ import styles from "./SliderProducts.module.css";
 import Spinner from "widgets/Spinner/Spinner";
 import Error from "widgets/Error/Error";
 import { getRandom } from "utils/plus";
-import { productsSelector } from "store/productsSlice/productsSlice";
+import { productsSelector } from "store/slice/productsSlice";
 
 const SliderProducts = ({ product = [], initialAmount = 10 }) => {
-  const { list, isLoading, isError } = useSelector(productsSelector);
+  const { list, isLoading, error } = useSelector(productsSelector);
 
   if (list.length) {
     product = getRandom(list, initialAmount);
@@ -58,37 +58,30 @@ const SliderProducts = ({ product = [], initialAmount = 10 }) => {
 
   if (isLoading) return <Spinner />;
 
-  if (isError) return <Error isError={isError} />;
-
-  if (product.length < 1) {
-    return (
-      <div className={styles.isEmpty}>
-        The products slider is temporarily empty
-      </div>
-    );
-  }
+  if (error) return <Error error={error} />;
 
   return (
     <div className={styles.content}>
       <Slider {...settings}>
-        {product.map((item) => (
-          <div className={styles.card} key={item.id}>
-            <div className={styles.cardTop}>
-              <img src={item.images[0]} alt={item.title} />
-            </div>
-
-            <div className={styles.cardBottom}>
-              <h1>{item.title}</h1>
-              <h3>$ {item.price}</h3>
-              <div className={styles.category}>
-                Category: {item.category.name}
+        {product.length &&
+          product.map((item) => (
+            <div className={styles.card} key={item.id}>
+              <div className={styles.cardTop}>
+                <img src={item.images[0]} alt={item.title} />
               </div>
-              <NavLink to={`/products/${item.id}`} className={styles.link}>
-                <button className={styles.linkBtn}>more</button>
-              </NavLink>
+
+              <div className={styles.cardBottom}>
+                <h1>{item.title.slice(0, 50)}</h1>
+                <h3>$ {item.price}</h3>
+                <div className={styles.category}>
+                  Category: {item.category.name}
+                </div>
+                <NavLink to={`/products/${item.id}`} className={styles.link}>
+                  <button className={styles.linkBtn}>more</button>
+                </NavLink>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
       </Slider>
     </div>
   );

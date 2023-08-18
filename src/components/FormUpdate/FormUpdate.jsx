@@ -2,14 +2,14 @@ import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { Fragment } from "react";
 
-import { updateUser } from "store/userSlice/userSlice";
+import { updateUser } from "store/slice/userSlice";
 import Spinner from "widgets/Spinner/Spinner";
 import Error from "widgets/Error/Error";
 import FormReact from "components/FormReact/FormReact";
-import { fieldsUpdate } from "utils/validate";
+import { fieldsUpdate } from "config/validate";
 
 function FormUpdate({ selector }) {
-  const { currentUser, isLoading, isError } = selector;
+  const { currentUser, isLoading, error } = selector;
 
   const dispatch = useDispatch();
 
@@ -28,7 +28,7 @@ function FormUpdate({ selector }) {
   return (
     <Fragment>
       <FormReact onSubmit={onSubmit} fields={fieldsUpdate} btn="update" />
-      {isError && <Error isError={isError} />}
+      {error && <Error error={error} />}
     </Fragment>
   );
 }

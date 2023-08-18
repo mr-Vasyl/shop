@@ -7,14 +7,17 @@ import { Provider } from "react-redux";
 import "./styles/index.css";
 import App from "./App";
 import { store } from "./store";
+import ErrorBoundary from "widgets/ErrorBoundary/ErrorBoundary";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>
     <BrowserRouter>
-      <StrictMode>
+      {/*  <StrictMode> */}
+      <ErrorBoundary>
         <App />
-      </StrictMode>
+      </ErrorBoundary>
+      {/*  </StrictMode> */}
     </BrowserRouter>
   </Provider>
 );

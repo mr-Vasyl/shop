@@ -1,32 +1,48 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import {
   getProducts,
   productsSelector,
-} from "store/productsSlice/productsSlice";
+  setProducts,
+} from "store/slice/productsSlice";
 
-import Spinner from "widgets/Spinner/Spinner";
 import Error from "widgets/Error/Error";
 import ProductsList from "./ProductsList";
 
-const Products = () => {
-  const dispatch = useDispatch();
+const Products = ({ initialAmount = 12 }) => {
+  const [offset, setOffset] = useState(0);
 
-  const { list, isLoading, isError } = useSelector(productsSelector);
+  const dispatch = useDispatch();
+  const { list, isLoading, error } = useSelector(productsSelector);
 
   useEffect(() => {
-    dispatch(getProducts());
+    dispatch(getProducts({ offset: offset, limit: initialAmount }));
+  }, [dispatch, initialAmount, offset]);
+
+  const setNumb = () => {
+    setOffset((numb) => numb + initialAmount);
+  };
+
+  useEffect(() => {
+    return () => {
+      dispatch(setProducts([]));
+    };
   }, [dispatch]);
 
-  if (isLoading) {
-    return <Spinner />;
+  if (error) {
+    return <Error error={error} />;
   }
 
-  if (isError) {
-    return <Error isError={isError} />;
-  }
-
-  return <ProductsList list={list} isLoading={isLoading} />;
+  return (
+    <>
+      <ProductsList
+        list={list}
+        isLoading={isLoading}
+        setNumb={setNumb}
+        initialAmount={initialAmount}
+      />
+    </>
+  );
 };
 export default Products;

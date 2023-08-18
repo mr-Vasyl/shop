@@ -1,10 +1,10 @@
 import { NavLink } from "react-router-dom";
-import { routes } from "utils/routes";
+import { routes } from "config/routes";
 import { useDispatch, useSelector } from "react-redux";
 
 import styles from "./Header.module.css";
 import Search from "../Search/Search";
-import { getLogOut, usersSelector } from "store/userSlice/userSlice";
+import { getLogOut, usersSelector } from "store/slice/userSlice";
 
 import logo from "images/shopCart.svg";
 import cartIcon from "images/cart.svg";
