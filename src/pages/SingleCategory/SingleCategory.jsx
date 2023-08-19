@@ -3,10 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import styles from "./SingleCategory.module.css";
 
-import Categories from "../Categories/Categories";
+import Categories from "components/Categories/Categories";
 
 import Spinner from "widgets/Spinner/Spinner";
-import ProductsList from "../Products/ProductsList";
+import ProductsList from "components/Products/ProductsList";
 import {
   categoriesSelector,
   getRelatedProducts,

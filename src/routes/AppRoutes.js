@@ -1,15 +1,18 @@
 import { Route, Routes } from "react-router-dom";
 import { routes } from "config/routes";
+import { lazy } from "react";
 
-import Home from "pages/Home/Home";
-import Shop from "pages/Shop/Shop";
-import AddProduct from "pages/AddProduct/AddProduct";
-import Cart from "pages/Cart/Cart";
-import User from "pages/User/User";
-import SingleCategory from "components/SingleCategory/SingleCategory";
-import Product from "pages/Product/Product";
-import Contacts from "pages/Contacts/Contacts";
-import Services from "pages/Services/Services";
+const Home = lazy(() => import("pages/Home/Home"));
+const Shop = lazy(() => import("pages/Shop/Shop"));
+const AddProduct = lazy(() => import("pages/AddProduct/AddProduct"));
+const Cart = lazy(() => import("pages/Cart/Cart"));
+const User = lazy(() => import("pages/User/User"));
+const SingleCategory = lazy(() =>
+  import("pages/SingleCategory/SingleCategory")
+);
+const Product = lazy(() => import("pages/Product/Product"));
+const Contacts = lazy(() => import("pages/Contacts/Contacts"));
+const Services = lazy(() => import("pages/Services/Services"));
 
 const AppRoutes = () => (
   <Routes>

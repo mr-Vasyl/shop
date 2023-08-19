@@ -1,8 +1,10 @@
-import { Fragment } from "react";
+import { Fragment, Suspense } from "react";
+
 import Header from "components/Header/Header";
 import AppRoutes from "./routes/AppRoutes";
 import Footer from "components/Footer/Footer";
 import ScrollToTop from "./widgets/ScrollToTop/ScrollToTop";
+import Spinner from "widgets/Spinner/Spinner";
 
 const App = () => {
   return (
@@ -11,7 +13,9 @@ const App = () => {
         <Header />
         <main>
           <div className="container">
-            <AppRoutes />
+            <Suspense fallback={<Spinner />}>
+              <AppRoutes />
+            </Suspense>
           </div>
         </main>
         <Footer />
