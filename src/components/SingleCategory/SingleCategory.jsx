@@ -17,6 +17,7 @@ const SingleCategory = ({ initialAmount = 12 }) => {
   const [offset, setOffset] = useState(0);
 
   const params = useParams();
+
   const dispatch = useDispatch();
 
   const { related, isLoading } = useSelector(categoriesSelector);
@@ -37,7 +38,7 @@ const SingleCategory = ({ initialAmount = 12 }) => {
       })
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, initialAmount, offset]);
+  }, [dispatch, initialAmount, offset, params.id]);
 
   const setNumb = () => {
     setOffset((numb) => numb + initialAmount);

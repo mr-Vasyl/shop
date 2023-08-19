@@ -26,19 +26,55 @@ export const updateUser = createAsyncThunk(
     }
   }
 );
+
+const refreshAccessToken = async () => {
+  try {
+    const refreshToken = window.localStorage.getItem("refresh_token");
+    const response = await axios.post(`${base_URL}/auth/refresh-token`, {
+      refreshToken,
+    });
+
+    const newAccessToken = response.data.access_token;
+    window.localStorage.setItem("accessToken", newAccessToken);
+
+    return newAccessToken;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
 export const loginUsers = createAsyncThunk(
   "users/loginUser",
   async (body, thunkAPI) => {
     try {
-      const res = await axios.post(`${base_URL}/auth/login`, body);
+      let accessToken = window.localStorage.getItem("accessToken");
+
+      if (!accessToken) {
+        const res = await axios.post(`${base_URL}/auth/login`, body);
+        accessToken = res.data.access_token;
+        window.localStorage.setItem("accessToken", accessToken);
+      }
+
       const token = await axios.get(`${base_URL}/auth/profile`, {
         headers: {
-          Authorization: `Bearer ${res.data.access_token}`,
+          Authorization: `Bearer ${accessToken}`,
         },
       });
-      window.localStorage.setItem("accessToken", res.data.access_token);
       return token.data;
     } catch (error) {
+      if (error.response && error.response.status === 401) {
+        try {
+          const newAccessToken = await refreshAccessToken();
+          const token = await axios.get(`${base_URL}/auth/profile`, {
+            headers: {
+              Authorization: `Bearer ${newAccessToken}`,
+            },
+          });
+          return token.data;
+        } catch (refreshError) {
+          return thunkAPI.rejectWithValue(refreshError.response.data);
+        }
+      }
       return thunkAPI.rejectWithValue(error.response.data);
     }
   }
@@ -89,6 +125,8 @@ const userSlice = createSlice({
       state.showForm = false;
       state.error = "";
       state.isLoading = false;
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
     },
   },
 

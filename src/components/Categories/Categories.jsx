@@ -18,7 +18,6 @@ function Categories({ countCategory = 5 }) {
 
   return (
     <>
-      {/*  {isLoading && <span>loading...</span>} */}
       <ul className={styles.category}>
         {error ? (
           <span>{error}</span>

@@ -16,7 +16,7 @@ import useDebounce from "config/useDebounce";
 const Search = () => {
   const [valueSearch, setValueSearch] = useState("");
   const amountRef = useRef(false);
-  const debouncedValue = useDebounce(valueSearch, 1000);
+  const debouncedValue = useDebounce(valueSearch, 500);
 
   const dispatch = useDispatch();
   const { search, isLoadingSearch } = useSelector(categoriesSelector);
