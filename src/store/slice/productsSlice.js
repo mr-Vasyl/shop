@@ -5,13 +5,13 @@ import { setParams } from "utils/setParams";
 
 export const getProducts = createAsyncThunk(
   "products/getProducts",
-  async (params = {}, thunkAPI) => {
+  async ({ isMount = false, ...params }, thunkAPI) => {
     try {
       const products = await axios.get(`${base_URL}/products`, {
         params: setParams(params),
       });
 
-      return products.data;
+      return { isMount, data: products.data };
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -85,7 +85,12 @@ const productsSlice = createSlice({
     });
     builder.addCase(getProducts.fulfilled, (state, { payload }) => {
       state.isLoading = false;
-      state.list = [...state.list, ...payload];
+      if (payload.isMount) {
+        state.list = payload.data;
+        return;
+      }
+
+      state.list = [...state.list, ...payload.data];
     });
     builder.addCase(getProducts.rejected, (state, action) => {
       state.isLoading = false;
@@ -117,6 +122,7 @@ const productsSlice = createSlice({
     builder.addCase(postAddProduct.rejected, (state, action) => {
       state.isLoading = false;
       state.error = action.payload.message;
+      state.product = [];
     });
 
     builder.addCase(getProduct.pending, (state) => {

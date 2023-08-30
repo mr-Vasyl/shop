@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { base_URL } from "config/baseUrl";
 import axios from "axios";
+import { setParams } from "utils/setParams";
 
 export const getCategories = createAsyncThunk(
   "categories/getCategories",
@@ -15,16 +16,12 @@ export const getCategories = createAsyncThunk(
 );
 export const getRelatedProducts = createAsyncThunk(
   "categories/getRelatedProducts",
-  async (categoryId, thunkAPI) => {
-    const searchParams = new URLSearchParams(categoryId.limit);
+  async ({ isMount = false, ...params }, thunkAPI) => {
     try {
-      const products = await axios.get(
-        `${base_URL}/products?categoryId=${categoryId.id}`,
-        {
-          params: searchParams,
-        }
-      );
-      return products.data;
+      const products = await axios.get(`${base_URL}/products`, {
+        params: setParams(params),
+      });
+      return { isMount, data: products.data };
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -52,7 +49,6 @@ const categoriesSlice = createSlice({
     isLoading: false,
     errorSearch: "",
     isLoadingSearch: false,
-
     isLoadingRelated: false,
   },
   reducers: {
@@ -80,7 +76,11 @@ const categoriesSlice = createSlice({
     });
     builder.addCase(getRelatedProducts.fulfilled, (state, { payload }) => {
       state.isLoading = false;
-      state.related = [...state.related, ...payload];
+      if (payload.isMount) {
+        state.related = payload.data;
+        return;
+      }
+      state.related = [...state.related, ...payload.data];
     });
     builder.addCase(getRelatedProducts.rejected, (state, action) => {
       state.isLoading = false;

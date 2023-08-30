@@ -5,6 +5,7 @@ import axios from "axios";
 export const createUser = createAsyncThunk(
   "newUser/createUser",
   async (payload, thunkAPI) => {
+    console.log(window.sessionStorage.getItem);
     try {
       const res = await axios.post(`${base_URL}/users`, payload);
       return res.data;
@@ -48,6 +49,7 @@ export const loginUsers = createAsyncThunk(
   async (body, thunkAPI) => {
     try {
       let accessToken = window.localStorage.getItem("accessToken");
+  
 
       if (!accessToken) {
         const res = await axios.post(`${base_URL}/auth/login`, body);

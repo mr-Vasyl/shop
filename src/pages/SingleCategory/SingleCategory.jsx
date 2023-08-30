@@ -10,7 +10,6 @@ import ProductsList from "components/Products/ProductsList";
 import {
   categoriesSelector,
   getRelatedProducts,
-  setRelated,
 } from "store/slice/categoriesSlice";
 
 const SingleCategory = ({ initialAmount = 12 }) => {
@@ -24,35 +23,32 @@ const SingleCategory = ({ initialAmount = 12 }) => {
 
   useEffect(() => {
     setOffset(0);
-    dispatch(setRelated([]));
-    return () => {
-      dispatch(setRelated([]));
-    };
-  }, [dispatch, params.id]);
-
-  useEffect(() => {
     dispatch(
       getRelatedProducts({
-        id: params.id,
-        limit: { offset: offset, limit: initialAmount },
+        categoryId: params.id,
+        offset: 0,
+        limit: initialAmount,
+        isMount: true,
       })
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, initialAmount, offset, params.id]);
+  }, [dispatch, params.id]);
 
   const setNumb = () => {
-    setOffset((numb) => numb + initialAmount);
+    setOffset((prevState) => prevState + initialAmount);
+    dispatch(
+      getRelatedProducts({
+        categoryId: params.id,
+        offset: offset + initialAmount,
+        limit: initialAmount,
+      })
+    );
   };
-
-  const empty = (
-    <div className={styles.isEmpty}>Products are temporarily empty</div>
-  );
 
   return (
     <section className={styles.category}>
       <Categories />
       {isLoading && <Spinner />}
-      {!related.length && empty}
       <ProductsList
         isLoading={isLoading}
         list={related}

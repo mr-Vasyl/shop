@@ -11,7 +11,7 @@ import {
   categoriesSelector,
   getSearchProducts,
 } from "store/slice/categoriesSlice";
-import useDebounce from "config/useDebounce";
+import useDebounce from "hoc/useDebounce";
 
 const Search = () => {
   const [valueSearch, setValueSearch] = useState("");

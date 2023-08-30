@@ -20,6 +20,7 @@ const FormReact = ({ onSubmit, fields, btn, selectField }) => {
               className={styles.inp}
               type={field.type}
               placeholder={field.placeholder}
+              min={field.min}
               {...register(field.name, {
                 required: field.required,
                 minLength: {

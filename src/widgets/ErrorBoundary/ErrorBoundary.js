@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import Error from "widgets/Error/Error";
+
 class ErrorBoundary extends Component {
-  state = {
-    error: null,
-  };
+  constructor(props) {
+    super(props);
+    this.state = { hasError: null };
+  }
   static getDerivedStateFromError(error) {
-    return { error };
+    return { hasError: error };
   }
   render() {
     const { error } = this.state;

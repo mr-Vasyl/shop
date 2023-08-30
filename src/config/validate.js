@@ -89,6 +89,7 @@ export const fieldsAddProduct = [
   {
     type: "number",
     name: "price",
+    min: "1",
     placeholder: "Price:",
     required: "field is empty",
     minLength: 1,
