@@ -48,6 +48,12 @@
     ]
   },
   "devDependencies": {
-    "gh-pages": "^5.0.0"
+    "@types/react": "^18.2.30",
+    "@types/react-dom": "^18.2.14",
+    "@types/react-redux": "^7.1.28",
+    "@types/react-router-dom": "^5.3.3",
+    "gh-pages": "^5.0.0",
+    "ts-migrate": "^0.1.35",
+    "typescript": "^5.2.2"
   }
 }
