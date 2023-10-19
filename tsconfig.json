@@ -18,5 +18,5 @@
     "jsx": "react-jsx"
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "globals.d.ts"]
-  /* "include": ["src"] */
+  //"include": ["src"]
 }

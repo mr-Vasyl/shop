@@ -12,7 +12,6 @@ const App = () => {
       <div className="wrapper">
         <Header />
         <main>
-          cc
           <div className="container">
             <Suspense fallback={<Spinner />}>
               <AppRoutes />
