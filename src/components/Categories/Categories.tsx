@@ -1,18 +1,19 @@
-import { useDispatch, useSelector } from "react-redux";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { NavLink } from "react-router-dom";
 
 import styles from "./Categories.module.css";
+
 import { categoriesSelector, getCategories } from "store/slice/categoriesSlice";
+import { useAppDispatch, useAppSelector } from "store/hooks";
 
 function Categories({ countCategory = 5 }) {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(getCategories());
   }, [dispatch]);
 
-  const { list, isLoadingRelated, error } = useSelector(categoriesSelector);
+  const { list, isLoadingRelated, error } = useAppSelector(categoriesSelector);
 
   if (isLoadingRelated) return <span>loading...</span>;
 
@@ -23,8 +24,8 @@ function Categories({ countCategory = 5 }) {
           <span>{error}</span>
         ) : (
           list
-            .filter((_, indx) => indx < countCategory)
-            .map(({ id, name }) => (
+            .filter((_, indx: number) => indx < countCategory)
+            .map(({ id, name }: { id: string; name: string }) => (
               <li key={id}>
                 <NavLink
                   to={`/categories/${id}`}

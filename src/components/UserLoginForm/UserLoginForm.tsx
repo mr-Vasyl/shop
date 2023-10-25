@@ -1,4 +1,3 @@
-import { useDispatch } from "react-redux";
 import { Fragment, useEffect } from "react";
 
 import Spinner from "widgets/Spinner/Spinner";
@@ -8,8 +7,15 @@ import { loginUsers, toggleForm } from "store/slice/userSlice";
 import FormReact from "components/FormReact/FormReact";
 import { fieldsLogin } from "config/validate";
 
-const UserLoginForm = ({ selector }) => {
-  const dispatch = useDispatch();
+import { useAppDispatch } from "store/hooks";
+import { User, UserSchema } from "store/types/user";
+
+interface UserLoginFormProps {
+  selector: UserSchema;
+}
+
+const UserLoginForm = ({ selector }: UserLoginFormProps) => {
+  const dispatch = useAppDispatch();
   const { currentUser, error, isLoading } = selector;
 
   useEffect(() => {
@@ -18,11 +24,13 @@ const UserLoginForm = ({ selector }) => {
     }
   }, [dispatch, currentUser]);
 
-  const onSubmit = (reset) => (data) => {
-    const isNotEmpty = Object.values(data).every((val) => val);
-    if (!isNotEmpty) return;
+  const onSubmit = (reset: () => void) => (data?: User) => {
+    if (data) {
+      const isNotEmpty = Object.values(data).every((val) => val);
+      if (!isNotEmpty) return;
 
-    dispatch(loginUsers(data));
+      dispatch(loginUsers(data));
+    }
     reset();
   };
 

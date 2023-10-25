@@ -1,26 +1,25 @@
-import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-
 import { getProducts, productsSelector } from "store/slice/productsSlice";
 
 import Error from "widgets/Error/Error";
 import ProductsList from "./ProductsList";
 
-const Products = ({ initialAmount = 12 }) => {
-  const [offset, setOffset] = useState(0);
+import { useAppDispatch, useAppSelector } from "store/hooks";
 
-  const dispatch = useDispatch();
-  const { list, isLoading, error } = useSelector(productsSelector);
+const Products = ({ initialAmount = 12 }) => {
+  const [offset, setOffset] = useState<number>(0);
+
+  const dispatch = useAppDispatch();
+  const { list, isLoading, error } = useAppSelector(productsSelector);
 
   useEffect(() => {
     dispatch(
       getProducts({ offset: offset, limit: initialAmount, isMount: true })
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 
   const setNumb = () => {
-    setOffset((numb) => numb + initialAmount);
+    setOffset((numb: number) => numb + initialAmount);
     dispatch(
       getProducts({ offset: offset + initialAmount, limit: initialAmount })
     );

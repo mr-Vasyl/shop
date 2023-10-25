@@ -1,7 +1,13 @@
-export const setParams = (params) => {
+interface Params {
+  [key: string]: string | number | null;
+}
+
+export const setParams = (params: Params) => {
   const searchParams = new URLSearchParams();
   for (const [key, value] of Object.entries(params)) {
-    value !== null && value !== "" && searchParams.append(key, value);
+    if (value !== null && value !== "") {
+      searchParams.append(key, value.toString());
+    }
   }
   return searchParams;
 };

@@ -1,15 +1,29 @@
-import React from "react";
+import { MouseEventHandler } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import styles from "./ProductsList.module.css";
 import Spinner from "widgets/Spinner/Spinner";
 
-function ProductsList({ list, setNumb, initialAmount, isLoading }) {
+import { Products } from "store/types/categories";
+
+type ProductsListProps = {
+  list: Products[];
+  setNumb: MouseEventHandler<HTMLButtonElement>;
+  initialAmount: number;
+  isLoading: boolean;
+};
+
+function ProductsList({
+  list,
+  setNumb,
+  initialAmount,
+  isLoading,
+}: ProductsListProps) {
   return (
     <div className={styles.wrapper}>
       <ul className={styles.cardsList}>
-        {list.map(({ id, title, images, price }) => (
+        {list.map(({ id, title, images, price }: Products) => (
           <Link to={`/products/${id}`} className={styles.cardsItem} key={id}>
             <div
               style={{ backgroundImage: `url(${images[0]})` }}

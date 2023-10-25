@@ -1,7 +1,26 @@
-const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const linkRegex = /^https:\/\/.*\.(jpg|png)$/i;
+import { User } from "store/types/user";
+import { NewProduct } from "store/types/products";
+import { Path } from "react-hook-form";
 
-export const fieldsRegister = [
+const emailRegex: RegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const linkRegex: RegExp = /^https:\/\/.*\.(jpg|png)$/i;
+
+export interface FormField<T> {
+  type: string;
+  name: Path<T>;
+  placeholder: string;
+  required: string;
+  minLength?: number;
+  errorMessage?: string;
+  min?: number;
+  pattern?: {
+    value: RegExp;
+    message: string;
+  };
+  select?: boolean;
+}
+
+export const fieldsRegister: FormField<User>[] = [
   {
     type: "text",
     name: "name",
@@ -38,7 +57,7 @@ export const fieldsRegister = [
   },
 ];
 
-export const fieldsLogin = [
+export const fieldsLogin: FormField<User>[] = [
   {
     type: "email",
     name: "email",
@@ -58,7 +77,7 @@ export const fieldsLogin = [
   },
 ];
 
-export const fieldsUpdate = [
+export const fieldsUpdate: FormField<User>[] = [
   {
     type: "text",
     name: "name",
@@ -78,7 +97,7 @@ export const fieldsUpdate = [
   },
 ];
 
-export const fieldsAddProduct = [
+export const fieldsAddProduct: FormField<NewProduct>[] = [
   {
     type: "text",
     name: "title",
@@ -89,7 +108,7 @@ export const fieldsAddProduct = [
   {
     type: "number",
     name: "price",
-    min: "1",
+    min: 1,
     placeholder: "Price:",
     required: "field is empty",
     minLength: 1,
@@ -104,6 +123,10 @@ export const fieldsAddProduct = [
   },
   {
     select: true,
+    type: "text",
+    name: "title",
+    placeholder: "select",
+    required: "select is empty",
   },
   {
     type: "text",

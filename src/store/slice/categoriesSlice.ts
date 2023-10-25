@@ -3,71 +3,87 @@ import { base_URL } from "config/baseUrl";
 import axios from "axios";
 import { setParams } from "utils/setParams";
 
-export const getCategories = createAsyncThunk(
-  "categories/getCategories",
-  async (_, thunkAPI) => {
-    try {
-      const products = await axios.get(`${base_URL}/categories`);
-      return products.data;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error);
-    }
+import { RootState } from "store/index";
+
+import {
+  Categories,
+  RelatedProducts,
+  Products,
+  categoriesSchema,
+} from "store/types/categories";
+
+export const getCategories = createAsyncThunk<
+  Categories[],
+  undefined,
+  { rejectValue: string }
+>("categories/getCategories", async (_, thunkAPI) => {
+  try {
+    const products = await axios.get<Categories[]>(`${base_URL}/categories`);
+    return products.data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error as string);
   }
-);
-export const getRelatedProducts = createAsyncThunk(
+});
+
+export const getRelatedProducts = createAsyncThunk<
+  { isMount: boolean; data: Products[] },
+  RelatedProducts,
+  { rejectValue: string }
+>(
   "categories/getRelatedProducts",
   async ({ isMount = false, ...params }, thunkAPI) => {
     try {
-      const products = await axios.get(`${base_URL}/products`, {
+      const products = await axios.get<Products[]>(`${base_URL}/products`, {
         params: setParams(params),
       });
       return { isMount, data: products.data };
     } catch (error) {
-      return thunkAPI.rejectWithValue(error);
+      return thunkAPI.rejectWithValue(error as string);
     }
   }
 );
-export const getSearchProducts = createAsyncThunk(
-  "search/getSearchProducts",
-  async (search, thunkAPI) => {
-    try {
-      const products = await axios.get(`${base_URL}/products?title=${search}`);
-      return products.data;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error);
-    }
+
+export const getSearchProducts = createAsyncThunk<
+  Products[],
+  string,
+  { rejectValue: string }
+>("search/getSearchProducts", async (search, thunkAPI) => {
+  try {
+    const products = await axios.get<Products[]>(
+      `${base_URL}/products?title=${search}`
+    );
+    return products.data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error as string);
   }
-);
+});
+
+const initialState: categoriesSchema = {
+  list: [],
+  related: [],
+  search: [],
+  error: "",
+  errorSearch: "",
+  isLoading: false,
+  isLoadingSearch: false,
+  isLoadingRelated: false,
+};
 
 const categoriesSlice = createSlice({
   name: "categories",
-  initialState: {
-    list: [],
-    related: [],
-    search: [],
-    error: "",
-    isLoading: false,
-    errorSearch: "",
-    isLoadingSearch: false,
-    isLoadingRelated: false,
-  },
-  reducers: {
-    setRelated: (state, { payload }) => {
-      state.related = payload;
-    },
-  },
-
+  initialState,
+  reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getCategories.pending, (state) => {
       state.isLoadingRelated = true;
     });
-    builder.addCase(getCategories.fulfilled, (state, { payload }) => {
+    builder.addCase(getCategories.fulfilled, (state, action) => {
       state.isLoadingRelated = false;
-      state.list = payload;
+      state.list = action.payload;
     });
     builder.addCase(getCategories.rejected, (state, action) => {
       state.isLoadingRelated = false;
-      state.error = action.payload.message;
+      state.error = action.payload || "An error occurred";
       state.list = [];
     });
 
@@ -84,7 +100,8 @@ const categoriesSlice = createSlice({
     });
     builder.addCase(getRelatedProducts.rejected, (state, action) => {
       state.isLoading = false;
-      state.error = action.payload.message;
+
+      state.error = action.payload || "An error occurred";
       state.related = [];
     });
 
@@ -98,12 +115,12 @@ const categoriesSlice = createSlice({
     });
     builder.addCase(getSearchProducts.rejected, (state, action) => {
       state.isLoadingSearch = false;
-      state.errorSearch = action.payload.message;
+
+      state.errorSearch = action.payload || "An error occurred";
       state.search = [];
     });
   },
 });
 
-export const { setRelated } = categoriesSlice.actions;
 export default categoriesSlice.reducer;
-export const categoriesSelector = (state) => state.categories;
+export const categoriesSelector = (state: RootState) => state.categories;

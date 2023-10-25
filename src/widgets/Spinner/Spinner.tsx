@@ -2,7 +2,10 @@ import React from "react";
 import styles from "./Spinner.module.css";
 import { SpinnerCircularFixed } from "spinners-react";
 
-function Spinner({ size }) {
+type SpinnerProps = {
+  size?: number;
+};
+function Spinner({ size }: SpinnerProps) {
   return (
     <div className={styles.spinner}>
       <SpinnerCircularFixed

@@ -1,4 +1,3 @@
-import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import { StrictMode } from "react";
@@ -9,7 +8,9 @@ import App from "./App";
 import { store } from "./store";
 import ErrorBoundary from "widgets/ErrorBoundary/ErrorBoundary";
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
+const root = ReactDOM.createRoot(
+  document.getElementById("root") as HTMLElement
+);
 root.render(
   <Provider store={store}>
     <BrowserRouter>

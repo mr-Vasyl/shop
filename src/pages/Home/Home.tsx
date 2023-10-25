@@ -7,7 +7,7 @@ import styles from "./Home.module.css";
 const Home = () => {
   return (
     <div className={styles.main}>
-      <SliderProducts />
+      <SliderProducts product={[]} initialAmount={10} />
       <ProductsHome />
       <ScrollToTop />
     </div>

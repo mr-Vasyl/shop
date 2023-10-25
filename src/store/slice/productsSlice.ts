@@ -3,76 +3,86 @@ import { base_URL } from "config/baseUrl";
 import axios from "axios";
 import { setParams } from "utils/setParams";
 
-export const getProducts = createAsyncThunk(
-  "products/getProducts",
-  async ({ isMount = false, ...params }, thunkAPI) => {
-    try {
-      const products = await axios.get(`${base_URL}/products`, {
-        params: setParams(params),
-      });
+import { RootState } from "store/index";
 
-      return { isMount, data: products.data };
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error);
-    }
-  }
-);
-export const getFilteredProducts = createAsyncThunk(
-  "products/getFilteredProducts",
-  async (params = {}, thunkAPI) => {
-    try {
-      const products = await axios.get(`${base_URL}/products`, {
-        params: setParams(params),
-      });
+import { RelatedProducts, Products } from "store/types/categories";
+import {
+  FilteredProducts,
+  NewProduct,
+  productsSchema,
+} from "store/types/products";
 
-      return products.data;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error);
-    }
+export const getProducts = createAsyncThunk<
+  { isMount: boolean; data: Products[] },
+  RelatedProducts,
+  { rejectValue: string }
+>("products/getProducts", async ({ isMount = false, ...params }, thunkAPI) => {
+  try {
+    const products = await axios.get<Products[]>(`${base_URL}/products`, {
+      params: setParams(params),
+    });
+    return { isMount, data: products.data };
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error as string);
   }
-);
-export const postAddProduct = createAsyncThunk(
-  "products/postAddProduct",
-  async (body, { rejectWithValue }) => {
-    try {
-      const response = await axios.post(`${base_URL}/products/`, body);
-      return response.data;
-    } catch (error) {
-      if (error.response) {
-        return rejectWithValue(error.response.data.message);
-      } else if (error.request) {
-        return rejectWithValue("Request failed, please try again later.");
-      } else {
-        return rejectWithValue("An error occurred, please try again later.");
-      }
-    }
+});
+
+export const getFilteredProducts = createAsyncThunk<
+  Products[],
+  FilteredProducts,
+  { rejectValue: string }
+>("products/getFilteredProducts", async (params, thunkAPI) => {
+  try {
+    const products = await axios.get<Products[]>(`${base_URL}/products`, {
+      params: setParams(params),
+    });
+
+    return products.data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error as string);
   }
-);
-export const getProduct = createAsyncThunk(
-  "products/getProduct",
-  async (id, thunkAPI) => {
-    try {
-      const products = await axios.get(`${base_URL}/products/${id}`);
-      return products.data;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error);
-    }
+});
+
+export const postAddProduct = createAsyncThunk<
+  Products,
+  NewProduct,
+  { rejectValue: string }
+>("products/postAddProduct", async (body, thunkAPI) => {
+  try {
+    const response = await axios.post<Products>(`${base_URL}/products/`, body);
+    return response.data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error as string);
   }
-);
+});
+
+export const getProduct = createAsyncThunk<
+  Products,
+  string,
+  { rejectValue: string }
+>("products/getProduct", async (id, thunkAPI) => {
+  try {
+    const products = await axios.get<Products>(`${base_URL}/products/${id}`);
+    return products.data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error as string);
+  }
+});
+
+const initialState: productsSchema = {
+  list: [],
+  product: null,
+  filteredList: [],
+  oneProduct: null,
+  error: "",
+  isLoading: false,
+  errorFilter: "",
+  isLoadingFilter: false,
+};
 
 const productsSlice = createSlice({
   name: "products",
-  initialState: {
-    list: [],
-    product: [],
-    filteredList: [],
-    oneProduct: null,
-    error: "",
-    isLoading: false,
-    errorFilter: "",
-    isLoadingFilter: false,
-  },
-
+  initialState,
   reducers: {
     setProducts: (state, { payload }) => {
       state.list = payload;
@@ -89,12 +99,11 @@ const productsSlice = createSlice({
         state.list = payload.data;
         return;
       }
-
       state.list = [...state.list, ...payload.data];
     });
     builder.addCase(getProducts.rejected, (state, action) => {
       state.isLoading = false;
-      state.error = action.payload.message;
+      state.error = action.payload || "An error occurred";
       state.list = [];
     });
 
@@ -107,7 +116,7 @@ const productsSlice = createSlice({
     });
     builder.addCase(getFilteredProducts.rejected, (state, action) => {
       state.isLoadingFilter = false;
-      state.errorFilter = action.payload.message;
+      state.errorFilter = action.payload || "An error occurred";
       state.filteredList = [];
     });
 
@@ -121,8 +130,8 @@ const productsSlice = createSlice({
     });
     builder.addCase(postAddProduct.rejected, (state, action) => {
       state.isLoading = false;
-      state.error = action.payload.message;
-      state.product = [];
+      state.error = action.payload || "An error occurred";
+      state.product = null;
     });
 
     builder.addCase(getProduct.pending, (state) => {
@@ -134,12 +143,12 @@ const productsSlice = createSlice({
       state.oneProduct = payload;
     });
     builder.addCase(getProduct.rejected, (state, action) => {
-      state.error = action.payload.message;
+      state.error = action.payload || "An error occurred";
       state.isLoading = false;
       state.oneProduct = null;
     });
   },
 });
-export const { clearProducts, setProducts } = productsSlice.actions;
+export const { setProducts } = productsSlice.actions;
 export default productsSlice.reducer;
-export const productsSelector = (state) => state.products;
+export const productsSelector = (state: RootState) => state.products;

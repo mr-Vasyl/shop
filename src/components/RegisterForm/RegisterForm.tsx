@@ -1,4 +1,3 @@
-import { useDispatch } from "react-redux";
 import { Fragment, useEffect } from "react";
 import PropTypes from "prop-types";
 
@@ -10,8 +9,15 @@ import { createUser, toggleForm } from "store/slice/userSlice";
 import FormReact from "components/FormReact/FormReact";
 import { fieldsRegister } from "config/validate";
 
-const RegisterForm = ({ selector }) => {
-  const dispatch = useDispatch();
+import { useAppDispatch } from "store/hooks";
+import { User, UserSchema } from "store/types/user";
+
+interface RegisterFormProps {
+  selector: UserSchema;
+}
+
+const RegisterForm = ({ selector }: RegisterFormProps) => {
+  const dispatch = useAppDispatch();
   const { currentUser, error, isLoading } = selector;
 
   useEffect(() => {
@@ -20,11 +26,13 @@ const RegisterForm = ({ selector }) => {
     }
   }, [dispatch, currentUser]);
 
-  const onSubmit = (reset) => (data) => {
-    const isNotEmpty = Object.values(data).every((val) => val);
-    if (!isNotEmpty) return;
+  const onSubmit = (reset: () => void) => (data?: User) => {
+    if (data) {
+      const isNotEmpty = Object.values(data).every((val) => val);
+      if (!isNotEmpty) return;
 
-    dispatch(createUser(data));
+      dispatch(createUser(data));
+    }
     reset();
   };
 

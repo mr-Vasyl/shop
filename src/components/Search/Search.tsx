@@ -1,5 +1,4 @@
-import { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useRef, useState, ChangeEvent } from "react";
 import { Link } from "react-router-dom";
 
 import { SpinnerCircular } from "spinners-react";
@@ -13,23 +12,27 @@ import {
 } from "store/slice/categoriesSlice";
 import useDebounce from "hoc/useDebounce";
 
+import { useAppDispatch, useAppSelector } from "store/hooks";
+import { Products } from "store/types/categories";
+
 const Search = () => {
-  const [valueSearch, setValueSearch] = useState("");
-  const amountRef = useRef(false);
+  const [valueSearch, setValueSearch] = useState<string>("");
+  const amountRef = useRef<boolean>(false);
+
   const debouncedValue = useDebounce(valueSearch, 500);
 
-  const dispatch = useDispatch();
-  const { search, isLoadingSearch } = useSelector(categoriesSelector);
+  const dispatch = useAppDispatch();
+
+  const { search, isLoadingSearch } = useAppSelector(categoriesSelector);
 
   useEffect(() => {
-    if (amountRef.current) {
+    if (amountRef?.current) {
       dispatch(getSearchProducts(valueSearch));
     }
     amountRef.current = true;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, debouncedValue]);
 
-  const handleSearch = (event) => {
+  const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {
     setValueSearch(event.target.value);
   };
 
@@ -62,7 +65,7 @@ const Search = () => {
         ) : !search.length ? (
           "No results"
         ) : (
-          search.map(({ id, title, images }) => (
+          search.map(({ id, title, images }: Products) => (
             <Link
               to={`/products/${id}`}
               className={styles.item}

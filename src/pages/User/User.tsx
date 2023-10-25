@@ -1,22 +1,25 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
 import styles from "./User.module.css";
 
 import RegisterForm from "components/RegisterForm/RegisterForm";
 import UserLoginForm from "components/UserLoginForm/UserLoginForm";
 import FormUpdate from "components/FormUpdate/FormUpdate";
-import { usersSelector } from "store/slice/userSlice";
+
+import { getLogOut, usersSelector } from "store/slice/userSlice";
+import { useAppDispatch, useAppSelector } from "store/hooks";
 
 const User = () => {
-  const [state, setState] = useState(false);
+  const [state, setState] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
 
-  const selector = useSelector(usersSelector);
-
-  const onToggle = () => {
+  const selector = useAppSelector(usersSelector);
+  const getOut = () => dispatch(getLogOut());
+  const onToggle = (): void => {
     setState(true);
   };
-  const offToggle = () => {
+  const offToggle = (): void => {
     setState(false);
+    getOut();
   };
 
   return (

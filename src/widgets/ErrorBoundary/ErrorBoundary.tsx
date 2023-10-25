@@ -1,17 +1,24 @@
-import React, { Component } from "react";
+import React, { Component, ReactNode } from "react";
 import Error from "widgets/Error/Error";
 
-class ErrorBoundary extends Component {
-  constructor(props) {
+type ErrorBoundaryProps = {
+  children: ReactNode;
+};
+
+type ErrorBoundaryState = {
+  error: Error | null;
+};
+
+class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
+  constructor(props: ErrorBoundaryProps) {
     super(props);
-    this.state = { hasError: null };
+    this.state = { error: null };
   }
-  static getDerivedStateFromError(error) {
-    return { hasError: error };
+  static getDerivedStateFromError(error: Error) {
+    return { error: error };
   }
   render() {
     const { error } = this.state;
-
     if (error) {
       return (
         <div>
@@ -22,5 +29,4 @@ class ErrorBoundary extends Component {
     return this.props.children;
   }
 }
-
 export default ErrorBoundary;

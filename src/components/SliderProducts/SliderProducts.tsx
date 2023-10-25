@@ -1,6 +1,4 @@
-import React from "react";
 import { NavLink } from "react-router-dom";
-import { useSelector } from "react-redux";
 
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -13,8 +11,16 @@ import Error from "widgets/Error/Error";
 import { getRandom } from "utils/plus";
 import { productsSelector } from "store/slice/productsSlice";
 
-const SliderProducts = ({ product = [], initialAmount = 10 }) => {
-  const { list, isLoading, error } = useSelector(productsSelector);
+import { useAppSelector } from "store/hooks";
+import { Products } from "store/types/categories";
+
+type SliderProductsProps = {
+  product: Products[];
+  initialAmount: number;
+};
+
+const SliderProducts = ({ product, initialAmount }: SliderProductsProps) => {
+  const { list, isLoading, error } = useAppSelector(productsSelector);
 
   if (list.length) {
     product = getRandom(list, initialAmount);
@@ -76,6 +82,7 @@ const SliderProducts = ({ product = [], initialAmount = 10 }) => {
                 <div className={styles.category}>
                   Category: {item.category.name}
                 </div>
+
                 <NavLink to={`/products/${item.id}`} className={styles.link}>
                   <button className={styles.linkBtn}>more</button>
                 </NavLink>

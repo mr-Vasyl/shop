@@ -1,99 +1,116 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { base_URL } from "config/baseUrl";
 import axios from "axios";
+import { RootState } from "store/index";
 
-export const createUser = createAsyncThunk(
+import {
+  User,
+  UserSchema,
+  Cart,
+  AccessToken,
+  RefreshResponse,
+  ErrorResponse,
+} from "store/types/user";
+import { Products } from "store/types/categories";
+
+export const createUser = createAsyncThunk<User, User, { rejectValue: string }>(
   "newUser/createUser",
-  async (payload, thunkAPI) => {
-    console.log(window.sessionStorage.getItem);
+  async (user, thunkAPI) => {
     try {
-      const res = await axios.post(`${base_URL}/users`, payload);
+      const res = await axios.post<User>(`${base_URL}/users`, user);
       return res.data;
     } catch (error) {
-      console.log(error);
-      return thunkAPI.rejectWithValue(error.response.data);
+      return thunkAPI.rejectWithValue(error as string);
     }
   }
 );
-export const updateUser = createAsyncThunk(
+
+export const updateUser = createAsyncThunk<User, User, { rejectValue: string }>(
   "updateUser/updateUser",
   async (body, thunkAPI) => {
     try {
-      const res = await axios.put(`${base_URL}/users/${body.id}`, body);
+      const res = await axios.put<User>(`${base_URL}/users/${body.id}`, body);
+
       return res.data;
     } catch (error) {
-      console.log(error);
-      return thunkAPI.rejectWithValue(error.response.data);
+      return thunkAPI.rejectWithValue(error as string);
     }
   }
 );
 
-const refreshAccessToken = async () => {
+const refreshAccessToken = async (): Promise<AccessToken> => {
   try {
     const refreshToken = window.localStorage.getItem("refresh_token");
-    const response = await axios.post(`${base_URL}/auth/refresh-token`, {
-      refreshToken,
-    });
-
+    const response = await axios.post<RefreshResponse>(
+      `${base_URL}/auth/refresh-token`,
+      {
+        refreshToken,
+      }
+    );
     const newAccessToken = response.data.access_token;
     window.localStorage.setItem("accessToken", newAccessToken);
 
     return newAccessToken;
   } catch (error) {
-    console.log(error.message);
+    throw error;
   }
 };
 
-export const loginUsers = createAsyncThunk(
-  "users/loginUser",
-  async (body, thunkAPI) => {
-    try {
-      let accessToken = window.localStorage.getItem("accessToken");
-  
+export const loginUsers = createAsyncThunk<
+  User,
+  User,
+  { rejectValue: ErrorResponse }
+>("users/loginUser", async (body, thunkAPI) => {
+  try {
+    let accessToken: AccessToken | null =
+      window.localStorage.getItem("accessToken");
 
-      if (!accessToken) {
-        const res = await axios.post(`${base_URL}/auth/login`, body);
-        accessToken = res.data.access_token;
-        window.localStorage.setItem("accessToken", accessToken);
-      }
-
-      const token = await axios.get(`${base_URL}/auth/profile`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      return token.data;
-    } catch (error) {
-      if (error.response && error.response.status === 401) {
-        try {
-          const newAccessToken = await refreshAccessToken();
-          const token = await axios.get(`${base_URL}/auth/profile`, {
-            headers: {
-              Authorization: `Bearer ${newAccessToken}`,
-            },
-          });
-          return token.data;
-        } catch (refreshError) {
-          return thunkAPI.rejectWithValue(refreshError.response.data);
-        }
-      }
-      return thunkAPI.rejectWithValue(error.response.data);
+    if (!accessToken) {
+      const res = await axios.post<{ access_token: AccessToken }>(
+        `${base_URL}/auth/login`,
+        body
+      );
+      accessToken = res.data.access_token;
+      window.localStorage.setItem("accessToken", accessToken);
     }
+
+    const token = await axios.get<User>(`${base_URL}/auth/profile`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    return token.data;
+  } catch (error: any) {
+    if (error.response && error.response.status === 401) {
+      try {
+        const newAccessToken = await refreshAccessToken();
+        const token = await axios.get<User>(`${base_URL}/auth/profile`, {
+          headers: {
+            Authorization: `Bearer ${newAccessToken}`,
+          },
+        });
+        return token.data;
+      } catch (error) {
+        return thunkAPI.rejectWithValue(error as ErrorResponse);
+      }
+    }
+    return thunkAPI.rejectWithValue(error);
   }
-);
+});
+
+const initialState: UserSchema = {
+  currentUser: null,
+  cart: [],
+  error: "",
+  isLoading: false,
+  showForm: false,
+};
 
 const userSlice = createSlice({
   name: "users",
-  initialState: {
-    currentUser: null,
-    cart: [],
-    error: "",
-    isLoading: false,
-    showForm: false,
-  },
-
+  initialState,
   reducers: {
-    getCart: (state, { payload }) => {
+    getCart: (state, { payload }: PayloadAction<Products>) => {
       const newCart = state.cart.map((item) => ({ ...item }));
       const existingItem = newCart.find(
         (item) => item.product.id === payload.id
@@ -104,14 +121,14 @@ const userSlice = createSlice({
       } else {
         newCart.push({ product: payload, quantity: 1 });
       }
-
       return { ...state, cart: newCart };
     },
 
-    removeProductCart: (state, { payload }) => {
+    removeProductCart: (state, { payload }: PayloadAction<string>) => {
       state.cart = state.cart.filter((item) => item.product.id !== payload);
     },
-    changeQuantityProduct: (state, { payload }) => {
+
+    changeQuantityProduct: (state, { payload }: PayloadAction<Cart>) => {
       state.cart = state.cart.map((item) =>
         item.product.id === payload.product.id
           ? { ...item, quantity: payload.quantity }
@@ -119,9 +136,10 @@ const userSlice = createSlice({
       );
     },
 
-    toggleForm: (state, { payload }) => {
+    toggleForm: (state, { payload }: PayloadAction<boolean>) => {
       state.showForm = payload;
     },
+
     getLogOut: (state) => {
       state.currentUser = null;
       state.showForm = false;
@@ -143,7 +161,8 @@ const userSlice = createSlice({
     });
     builder.addCase(loginUsers.rejected, (state, action) => {
       state.isLoading = false;
-      state.error = action.payload.message;
+      state.error =
+        (action.payload as ErrorResponse)?.message || "An error occurred";
       state.currentUser = null;
     });
 
@@ -159,7 +178,7 @@ const userSlice = createSlice({
     builder.addCase(createUser.rejected, (state, action) => {
       state.isLoading = false;
 
-      state.error = action.payload.message;
+      state.error = action.payload || "An error occurred";
       state.currentUser = null;
     });
 
@@ -172,8 +191,7 @@ const userSlice = createSlice({
     });
     builder.addCase(updateUser.rejected, (state, action) => {
       state.isLoading = false;
-
-      state.error = action.payload.message;
+      state.error = action.payload || "An error occurred";
       state.currentUser = null;
     });
   },
@@ -187,4 +205,4 @@ export const {
   changeQuantityProduct,
 } = userSlice.actions;
 export default userSlice.reducer;
-export const usersSelector = (state) => state.users;
+export const usersSelector = (state: RootState) => state.users;

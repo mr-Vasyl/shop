@@ -1,4 +1,3 @@
-import { useDispatch, useSelector } from "react-redux";
 import { totalAmount } from "utils/plus";
 import {
   changeQuantityProduct,
@@ -9,16 +8,21 @@ import {
 import styles from "./Cart.module.css";
 import cartIcon from "images/cart.svg";
 
+import { useAppDispatch, useAppSelector } from "store/hooks";
+
+import { Products } from "store/types/categories";
+
 const Cart = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
+  const { cart } = useAppSelector(usersSelector);
 
-  const { cart } = useSelector(usersSelector);
-  const total = totalAmount(cart);
+  const total: number = totalAmount(cart);
 
-  const removeProduct = (id) => {
+  const removeProduct = (id: string): void => {
     dispatch(removeProductCart(id));
   };
-  const changeQuantity = (product, quantity) => {
+
+  const changeQuantity = (product: Products, quantity: number) => {
     dispatch(changeQuantityProduct({ product, quantity }));
   };
 

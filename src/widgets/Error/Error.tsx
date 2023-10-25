@@ -1,9 +1,14 @@
 import styles from "./Error.module.css";
 
-function Error({ error, content }) {
+type ErrorProps = {
+  error: string;
+  content?: string;
+};
+
+function Error({ error, content }: ErrorProps) {
   return (
     <div className={styles.error}>
-      <div className={styles.message} styles={{ color: "red" }}>
+      <div className={styles.message} style={{ color: "red" }}>
         {error}! <p>{content}</p>
       </div>
     </div>

@@ -1,4 +1,3 @@
-import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -12,19 +11,23 @@ import Spinner from "widgets/Spinner/Spinner";
 import Error from "widgets/Error/Error";
 import { getProduct, productsSelector } from "store/slice/productsSlice";
 
+import { useAppDispatch, useAppSelector } from "store/hooks";
+
 const Product = () => {
   const navigate = useNavigate();
-  const [imageCurrent, setCurrentImage] = useState("");
-  const [toProductCart, setToProductCart] = useState(false);
+  const [imageCurrent, setCurrentImage] = useState<string>("");
+  const [toProductCart, setToProductCart] = useState<boolean>(false);
 
-  const params = useParams();
+  const params = useParams<{ id: string }>();
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const { oneProduct, isLoading, error } = useSelector(productsSelector);
+  const { oneProduct, isLoading, error } = useAppSelector(productsSelector);
 
   useEffect(() => {
-    dispatch(getProduct(params.id));
+    if (params.id !== undefined) {
+      dispatch(getProduct(params.id));
+    }
   }, [dispatch, params.id]);
 
   useEffect(() => {
@@ -34,7 +37,9 @@ const Product = () => {
   }, [oneProduct]);
 
   const addToCart = () => {
-    dispatch(getCart(oneProduct));
+    if (oneProduct !== null) {
+      dispatch(getCart(oneProduct));
+    }
     setToProductCart((e) => !e);
   };
   const ToCart = () => {
@@ -50,7 +55,7 @@ const Product = () => {
         <div className={styles.product}>
           <div className={styles.images}>
             <div className={styles.imagesItem}>
-              {oneProduct.images.map((image, i) => (
+              {oneProduct.images.map((image: any, i: any) => (
                 <div
                   key={i}
                   className={styles.img}
@@ -61,7 +66,6 @@ const Product = () => {
             </div>
             <img src={imageCurrent} className={styles.mainImg} alt="" />
           </div>
-
           <div className={styles.content}>
             <div className={styles.title}>{oneProduct.title}</div>
             <div className={styles.price}>$ {oneProduct.price}</div>

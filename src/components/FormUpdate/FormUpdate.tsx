@@ -1,5 +1,3 @@
-import { useDispatch } from "react-redux";
-import PropTypes from "prop-types";
 import { Fragment } from "react";
 
 import { updateUser } from "store/slice/userSlice";
@@ -8,18 +6,27 @@ import Error from "widgets/Error/Error";
 import FormReact from "components/FormReact/FormReact";
 import { fieldsUpdate } from "config/validate";
 
-function FormUpdate({ selector }) {
+import { useAppDispatch } from "store/hooks";
+import { User, UserSchema } from "store/types/user";
+
+interface FormUpdateProps {
+  selector: UserSchema;
+}
+
+function FormUpdate({ selector }: FormUpdateProps) {
   const { currentUser, isLoading, error } = selector;
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const onSubmit = (reset) => (data) => {
-    const isNotEmpty = Object.values(data).every((val) => val);
-    if (!isNotEmpty) return;
+  const onSubmit = (reset: () => void) => (data?: User) => {
+    if (data) {
+      const isNotEmpty = Object.values(data).every((val) => val);
+      if (!isNotEmpty) return;
 
-    const body = { ...data, id: currentUser.id };
+      const body: User = { ...data, id: currentUser?.id };
 
-    dispatch(updateUser(body));
+      dispatch(updateUser(body));
+    }
     reset();
   };
 
@@ -28,17 +35,10 @@ function FormUpdate({ selector }) {
   return (
     <Fragment>
       <FormReact onSubmit={onSubmit} fields={fieldsUpdate} btn="update" />
+
       {error && <Error error={error} />}
     </Fragment>
   );
 }
-FormUpdate.propTypes = {
-  selector: PropTypes.shape({
-    currentUser: PropTypes.shape({
-      name: PropTypes.string,
-      avatar: PropTypes.string,
-    }),
-    isLoading: PropTypes.bool.isRequired,
-  }).isRequired,
-};
+
 export default FormUpdate;

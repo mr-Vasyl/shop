@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { ChangeEvent, useEffect, useState } from "react";
 
 import styles from "./FilterByPriceRange.module.css";
 import {
@@ -9,13 +8,16 @@ import {
 } from "store/slice/productsSlice";
 import ProductsList from "components/Products/ProductsList";
 
+import { useAppDispatch, useAppSelector } from "store/hooks";
+
 function FilterByPriceRange({ initialAmount = 12 }) {
-  const [offset, setOffset] = useState(initialAmount);
-  const [filterRange, setFilterRange] = useState({ min: "", max: "" });
-
-  const { filteredList, isLoadingFilter } = useSelector(productsSelector);
-
-  const dispatch = useDispatch();
+  const [offset, setOffset] = useState<number>(initialAmount);
+  const [filterRange, setFilterRange] = useState<{ min: string; max: string }>({
+    min: "",
+    max: "",
+  });
+  const dispatch = useAppDispatch();
+  const { filteredList, isLoadingFilter } = useAppSelector(productsSelector);
 
   useEffect(() => {
     const minValue = Number(filterRange.min) < 1 ? 1 : filterRange.min;
@@ -36,15 +38,15 @@ function FilterByPriceRange({ initialAmount = 12 }) {
     };
   }, [dispatch]);
 
-  function handleChange(e) {
+  function handleChange(e: ChangeEvent<HTMLInputElement>) {
     setFilterRange({
       ...filterRange,
-      [e.target.name]: e.target.value,
+      [e.target.name]: parseInt(e.target.value, 10),
     });
   }
 
   const setNumb = () => {
-    setOffset((numb) => numb + initialAmount);
+    setOffset((numb: number) => numb + initialAmount);
   };
 
   return (

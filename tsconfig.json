@@ -15,8 +15,9 @@
     "isolatedModules": true,
     "noEmit": true,
     "types": ["jest"],
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "baseUrl": "./src"
   },
-  // "include": ["src/**/*.ts", "src/**/*.d.ts", "globals.d.ts"]
-  "include": ["src"]
+
+  "include": ["src", "src/**/*.d.ts", "globals.d.ts"]
 }

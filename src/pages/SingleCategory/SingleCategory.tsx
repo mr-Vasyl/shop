@@ -1,5 +1,4 @@
 import { useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import styles from "./SingleCategory.module.css";
 
@@ -12,14 +11,16 @@ import {
   getRelatedProducts,
 } from "store/slice/categoriesSlice";
 
+import { useAppDispatch, useAppSelector } from "store/hooks";
+
 const SingleCategory = ({ initialAmount = 12 }) => {
-  const [offset, setOffset] = useState(0);
+  const [offset, setOffset] = useState<number>(0);
 
-  const params = useParams();
+  const params = useParams<{ id: string }>();
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const { related, isLoading } = useSelector(categoriesSelector);
+  const { related, isLoading } = useAppSelector(categoriesSelector);
 
   useEffect(() => {
     setOffset(0);
@@ -31,7 +32,6 @@ const SingleCategory = ({ initialAmount = 12 }) => {
         isMount: true,
       })
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, params.id]);
 
   const setNumb = () => {

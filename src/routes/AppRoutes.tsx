@@ -7,8 +7,8 @@ const Shop = lazy(() => import("pages/Shop/Shop"));
 const AddProduct = lazy(() => import("pages/AddProduct/AddProduct"));
 const Cart = lazy(() => import("pages/Cart/Cart"));
 const User = lazy(() => import("pages/User/User"));
-const SingleCategory = lazy(() =>
-  import("pages/SingleCategory/SingleCategory")
+const SingleCategory = lazy(
+  () => import("pages/SingleCategory/SingleCategory")
 );
 const Product = lazy(() => import("pages/Product/Product"));
 const Contacts = lazy(() => import("pages/Contacts/Contacts"));

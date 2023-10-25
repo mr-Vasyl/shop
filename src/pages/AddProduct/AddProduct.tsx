@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState, ChangeEvent } from "react";
 import { Link } from "react-router-dom";
 
 import { categoriesSelector, getCategories } from "store/slice/categoriesSlice";
@@ -11,34 +10,43 @@ import Error from "widgets/Error/Error";
 import FormReact from "components/FormReact/FormReact";
 import { postAddProduct, productsSelector } from "store/slice/productsSlice";
 
+import { useAppDispatch, useAppSelector } from "store/hooks";
+
+import { NewProduct } from "store/types/products";
+import { Categories } from "store/types/categories";
+
 const AddProduct = () => {
-  const [values, setValues] = useState("1");
+  const [values, setValues] = useState<string>("1");
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const { list } = useSelector(categoriesSelector);
-  const { product, isLoading, error } = useSelector(productsSelector);
+  const { list } = useAppSelector(categoriesSelector);
+  const { product, isLoading, error } = useAppSelector(productsSelector);
 
   useEffect(() => {
     dispatch(getCategories());
   }, [dispatch]);
 
-  const onSubmit = (reset) => (data) => {
-    let body = {
-      title: data.title,
-      price: +data.price,
-      description: data.description,
-      categoryId: +values,
-      images: data.images.length
-        ? data.images.split(",").filter((_, indx) => indx < 3)
-        : [],
-    };
+  const onSubmit = (reset: () => void) => (data?: NewProduct) => {
+    if (data) {
+      let img: string[] = Array.isArray(data.images)
+        ? data.images
+        : data.images.split(",");
 
-    dispatch(postAddProduct(body));
+      let body: NewProduct = {
+        title: data.title,
+        price: +data.price,
+        description: data.description,
+        categoryId: +values,
+        images: img.slice(0, 3),
+      };
+
+      dispatch(postAddProduct(body));
+    }
     reset();
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e: ChangeEvent<HTMLSelectElement>): void => {
     setValues(e.target.value);
   };
   const selectField = (
@@ -48,7 +56,7 @@ const AddProduct = () => {
       value={values}
       onChange={handleChange}
     >
-      {list.map(({ id, name }) => (
+      {list.map(({ id, name }: Categories) => (
         <option value={id} key={id}>
           {name}
         </option>
@@ -69,7 +77,7 @@ const AddProduct = () => {
         selectField={selectField}
       />
 
-      {Object.keys(product).length > 0 && (
+      {product && Object.keys(product).length > 0 && (
         <div className={styles.added} key={product.id}>
           <p>Last added</p>
           <Link to={`/products/${product.id}`} className={styles.content}>

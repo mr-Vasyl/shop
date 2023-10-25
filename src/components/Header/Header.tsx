@@ -1,6 +1,5 @@
 import { NavLink } from "react-router-dom";
 import { routes } from "config/routes";
-import { useDispatch, useSelector } from "react-redux";
 
 import styles from "./Header.module.css";
 import Search from "../Search/Search";
@@ -10,10 +9,12 @@ import logo from "images/shopCart.svg";
 import cartIcon from "images/cart.svg";
 import userIcon from "images/userIcon.svg";
 
-const Header = () => {
-  const dispatch = useDispatch();
+import { useAppDispatch, useAppSelector } from "store/hooks";
 
-  const { currentUser, cart } = useSelector(usersSelector);
+const Header = () => {
+  const dispatch = useAppDispatch();
+
+  const { currentUser, cart } = useAppSelector(usersSelector);
 
   const getOut = () => dispatch(getLogOut());
 
