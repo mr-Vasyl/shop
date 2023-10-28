@@ -20,7 +20,7 @@ export interface Products {
   images: string[];
 }
 
-export interface categoriesSchema {
+export interface CategoriesSchema {
   list: Categories[];
   related: Products[];
   search: Products[];

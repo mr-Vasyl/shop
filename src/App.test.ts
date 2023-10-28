@@ -1,5 +1,10 @@
-/* import React from "react";
-import { render, screen } from "@testing-library/react";
-import App from "./App"; */
+// App.test.ts
 
-test("renders learn react link", () => {});
+import App from "./App";
+
+test("renders learn react link", () => {
+  // Ваш тестовий код тут
+});
+
+// Або просто пустий експорт, якщо вам не потрібно імпортувати нічого з цього файлу
+export {};

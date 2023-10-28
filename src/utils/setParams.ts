@@ -1,8 +1,4 @@
-interface Params {
-  [key: string]: string | number | null;
-}
-
-export const setParams = (params: Params) => {
+export const setParams = (params: Record<string, string | number | null>) => {
   const searchParams = new URLSearchParams();
   for (const [key, value] of Object.entries(params)) {
     if (value !== null && value !== "") {

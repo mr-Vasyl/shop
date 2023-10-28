@@ -9,7 +9,7 @@ import {
   Categories,
   RelatedProducts,
   Products,
-  categoriesSchema,
+  CategoriesSchema,
 } from "store/types/categories";
 
 export const getCategories = createAsyncThunk<
@@ -58,7 +58,7 @@ export const getSearchProducts = createAsyncThunk<
   }
 });
 
-const initialState: categoriesSchema = {
+const initialState: CategoriesSchema = {
   list: [],
   related: [],
   search: [],
