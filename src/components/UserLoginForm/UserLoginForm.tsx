@@ -8,7 +8,7 @@ import FormReact from "components/FormReact/FormReact";
 import { fieldsLogin } from "config/validate";
 
 import { useAppDispatch } from "store/hooks";
-import { User, UserSchema } from "store/types/user";
+import { User, UserSchema } from "types/user";
 
 interface UserLoginFormProps {
   selector: UserSchema;

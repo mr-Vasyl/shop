@@ -10,7 +10,7 @@ import cartIcon from "images/cart.svg";
 
 import { useAppDispatch, useAppSelector } from "store/hooks";
 
-import { Products } from "store/types/categories";
+import { Products } from "types/categories";
 
 const Cart = () => {
   const dispatch = useAppDispatch();

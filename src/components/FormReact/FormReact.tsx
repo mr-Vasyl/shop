@@ -1,12 +1,13 @@
 import { useForm, FieldValues } from "react-hook-form";
 import styles from "./FormReact.module.css";
+
 import { FormField } from "config/validate";
 
 interface FormReactProps<T> {
   onSubmit: (reset: () => void) => (data: T) => void;
   fields: FormField<T>[];
   btn: string;
-  selectField?: JSX.Element | undefined;
+  selectField?: JSX.Element;
 }
 
 function FormReact<T extends FieldValues>({
@@ -24,7 +25,7 @@ function FormReact<T extends FieldValues>({
 
   return (
     <form className={styles.form} onSubmit={handleSubmit(onSubmit(reset))}>
-      {fields.map((field: FormField<T>, indx: number) => (
+      {fields.map((field, indx) => (
         <div key={indx}>
           {field.select ? (
             selectField

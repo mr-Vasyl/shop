@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import styles from "./ProductsList.module.css";
 import Spinner from "widgets/Spinner/Spinner";
 
-import { Products } from "store/types/categories";
+import { Products } from "types/categories";
 
 type ProductsListProps = {
   list: Products[];
@@ -23,7 +23,7 @@ function ProductsList({
   return (
     <div className={styles.wrapper}>
       <ul className={styles.cardsList}>
-        {list.map(({ id, title, images, price }: Products) => (
+        {list.map(({ id, title, images, price }) => (
           <Link to={`/products/${id}`} className={styles.cardsItem} key={id}>
             <div
               style={{ backgroundImage: `url(${images[0]})` }}

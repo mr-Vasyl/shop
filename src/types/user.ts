@@ -1,4 +1,4 @@
-import { Products } from "store/types/categories";
+import { Products } from "types/categories";
 
 export type AccessToken = string;
 
@@ -8,8 +8,6 @@ export type RefreshResponse = {
 
 export type ErrorResponse = {
   message: string;
-  error: string;
-  statusCode: number;
 };
 
 export type User = {
@@ -27,7 +25,7 @@ export interface Cart {
 
 export interface UserSchema {
   currentUser: User | null;
-  cart: Cart[] | [];
+  cart: Cart[];
   error?: string;
   isLoading: boolean;
   showForm: boolean;

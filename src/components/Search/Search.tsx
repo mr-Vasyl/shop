@@ -13,7 +13,6 @@ import {
 import useDebounce from "hoc/useDebounce";
 
 import { useAppDispatch, useAppSelector } from "store/hooks";
-import { Products } from "store/types/categories";
 
 const Search = () => {
   const [valueSearch, setValueSearch] = useState<string>("");
@@ -65,7 +64,7 @@ const Search = () => {
         ) : !search.length ? (
           "No results"
         ) : (
-          search.map(({ id, title, images }: Products) => (
+          search.map(({ id, title, images }) => (
             <Link
               to={`/products/${id}`}
               className={styles.item}

@@ -1,5 +1,5 @@
-import { User } from "store/types/user";
-import { NewProduct } from "store/types/products";
+import { User } from "types/user";
+import { NewProduct } from "types/products";
 import { Path } from "react-hook-form";
 
 const emailRegex: RegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

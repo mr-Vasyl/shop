@@ -5,17 +5,15 @@ import { setParams } from "utils/setParams";
 
 import { RootState } from "store/index";
 
-import { RelatedProducts, Products } from "store/types/categories";
-import {
-  FilteredProducts,
-  NewProduct,
-  productsSchema,
-} from "store/types/products";
+import { RelatedProducts, Products } from "types/categories";
+import { FilteredProducts, NewProduct, productsSchema } from "types/products";
+
+import { ErrorResponse } from "types/user";
 
 export const getProducts = createAsyncThunk<
   { isMount: boolean; data: Products[] },
   RelatedProducts,
-  { rejectValue: string }
+  { rejectValue: ErrorResponse }
 >("products/getProducts", async ({ isMount = false, ...params }, thunkAPI) => {
   try {
     const products = await axios.get<Products[]>(`${base_URL}/products`, {
@@ -23,14 +21,14 @@ export const getProducts = createAsyncThunk<
     });
     return { isMount, data: products.data };
   } catch (error) {
-    return thunkAPI.rejectWithValue(error as string);
+    return thunkAPI.rejectWithValue({ message: "An error occurred" });
   }
 });
 
 export const getFilteredProducts = createAsyncThunk<
   Products[],
   FilteredProducts,
-  { rejectValue: string }
+  { rejectValue: ErrorResponse }
 >("products/getFilteredProducts", async (params, thunkAPI) => {
   try {
     const products = await axios.get<Products[]>(`${base_URL}/products`, {
@@ -39,33 +37,33 @@ export const getFilteredProducts = createAsyncThunk<
 
     return products.data;
   } catch (error) {
-    return thunkAPI.rejectWithValue(error as string);
+    return thunkAPI.rejectWithValue({ message: "An error occurred" });
   }
 });
 
 export const postAddProduct = createAsyncThunk<
   Products,
   NewProduct,
-  { rejectValue: string }
+  { rejectValue: ErrorResponse }
 >("products/postAddProduct", async (body, thunkAPI) => {
   try {
     const response = await axios.post<Products>(`${base_URL}/products/`, body);
     return response.data;
   } catch (error) {
-    return thunkAPI.rejectWithValue(error as string);
+    return thunkAPI.rejectWithValue({ message: "An error occurred" });
   }
 });
 
 export const getProduct = createAsyncThunk<
   Products,
   string,
-  { rejectValue: string }
+  { rejectValue: ErrorResponse }
 >("products/getProduct", async (id, thunkAPI) => {
   try {
     const products = await axios.get<Products>(`${base_URL}/products/${id}`);
     return products.data;
   } catch (error) {
-    return thunkAPI.rejectWithValue(error as string);
+    return thunkAPI.rejectWithValue({ message: "An error occurred" });
   }
 });
 
@@ -103,7 +101,7 @@ const productsSlice = createSlice({
     });
     builder.addCase(getProducts.rejected, (state, action) => {
       state.isLoading = false;
-      state.error = action.payload || "An error occurred";
+      state.error = action.payload?.message;
       state.list = [];
     });
 
@@ -116,7 +114,7 @@ const productsSlice = createSlice({
     });
     builder.addCase(getFilteredProducts.rejected, (state, action) => {
       state.isLoadingFilter = false;
-      state.errorFilter = action.payload || "An error occurred";
+      state.errorFilter = action.payload?.message;
       state.filteredList = [];
     });
 
@@ -130,7 +128,7 @@ const productsSlice = createSlice({
     });
     builder.addCase(postAddProduct.rejected, (state, action) => {
       state.isLoading = false;
-      state.error = action.payload || "An error occurred";
+      state.error = action.payload?.message;
       state.product = null;
     });
 
@@ -143,7 +141,7 @@ const productsSlice = createSlice({
       state.oneProduct = payload;
     });
     builder.addCase(getProduct.rejected, (state, action) => {
-      state.error = action.payload || "An error occurred";
+      state.error = action.payload?.message;
       state.isLoading = false;
       state.oneProduct = null;
     });

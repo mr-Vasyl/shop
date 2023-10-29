@@ -10,33 +10,35 @@ import {
   AccessToken,
   RefreshResponse,
   ErrorResponse,
-} from "store/types/user";
-import { Products } from "store/types/categories";
+} from "types/user";
+import { Products } from "types/categories";
 
-export const createUser = createAsyncThunk<User, User, { rejectValue: string }>(
-  "newUser/createUser",
-  async (user, thunkAPI) => {
-    try {
-      const res = await axios.post<User>(`${base_URL}/users`, user);
-      return res.data;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error as string);
-    }
+export const createUser = createAsyncThunk<
+  User,
+  User,
+  { rejectValue: ErrorResponse }
+>("newUser/createUser", async (user, thunkAPI) => {
+  try {
+    const res = await axios.post<User>(`${base_URL}/users`, user);
+    return res.data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue({ message: "An error occurred" });
   }
-);
+});
 
-export const updateUser = createAsyncThunk<User, User, { rejectValue: string }>(
-  "updateUser/updateUser",
-  async (body, thunkAPI) => {
-    try {
-      const res = await axios.put<User>(`${base_URL}/users/${body.id}`, body);
+export const updateUser = createAsyncThunk<
+  User,
+  User,
+  { rejectValue: ErrorResponse }
+>("updateUser/updateUser", async (body, thunkAPI) => {
+  try {
+    const res = await axios.put<User>(`${base_URL}/users/${body.id}`, body);
 
-      return res.data;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error as string);
-    }
+    return res.data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue({ message: "An error occurred" });
   }
-);
+});
 
 const refreshAccessToken = async (): Promise<AccessToken> => {
   try {
@@ -80,21 +82,18 @@ export const loginUsers = createAsyncThunk<
       },
     });
     return token.data;
-  } catch (error: any) {
-    if (error.response && error.response.status === 401) {
-      try {
-        const newAccessToken = await refreshAccessToken();
-        const token = await axios.get<User>(`${base_URL}/auth/profile`, {
-          headers: {
-            Authorization: `Bearer ${newAccessToken}`,
-          },
-        });
-        return token.data;
-      } catch (error) {
-        return thunkAPI.rejectWithValue(error as ErrorResponse);
-      }
+  } catch (error) {
+    try {
+      const newAccessToken = await refreshAccessToken();
+      const token = await axios.get<User>(`${base_URL}/auth/profile`, {
+        headers: {
+          Authorization: `Bearer ${newAccessToken}`,
+        },
+      });
+      return token.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue({ message: "An error occurred" });
     }
-    return thunkAPI.rejectWithValue(error);
   }
 });
 
@@ -161,8 +160,7 @@ const userSlice = createSlice({
     });
     builder.addCase(loginUsers.rejected, (state, action) => {
       state.isLoading = false;
-      state.error =
-        (action.payload as ErrorResponse)?.message || "An error occurred";
+      state.error = action.payload?.message;
       state.currentUser = null;
     });
 
@@ -178,7 +176,7 @@ const userSlice = createSlice({
     builder.addCase(createUser.rejected, (state, action) => {
       state.isLoading = false;
 
-      state.error = action.payload || "An error occurred";
+      state.error = action.payload?.message;
       state.currentUser = null;
     });
 
@@ -191,7 +189,7 @@ const userSlice = createSlice({
     });
     builder.addCase(updateUser.rejected, (state, action) => {
       state.isLoading = false;
-      state.error = action.payload || "An error occurred";
+      state.error = action.payload?.message;
       state.currentUser = null;
     });
   },

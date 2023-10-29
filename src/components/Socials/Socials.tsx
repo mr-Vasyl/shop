@@ -21,7 +21,7 @@ const socials: SocialsProps[] = [
 function Socials() {
   return (
     <div className={styles.socials}>
-      {socials.map((el, indx: number) => (
+      {socials.map((el, indx) => (
         <a href={el.link} target="_blank" rel="noreferrer" key={indx}>
           <img src={el.src} alt={el.alt} />
         </a>

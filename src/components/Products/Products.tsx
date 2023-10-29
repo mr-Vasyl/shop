@@ -6,7 +6,10 @@ import ProductsList from "./ProductsList";
 
 import { useAppDispatch, useAppSelector } from "store/hooks";
 
-const Products = ({ initialAmount = 12 }) => {
+type ProductsProps = {
+  initialAmount?: number;
+};
+const Products = ({ initialAmount = 12 }: ProductsProps) => {
   const [offset, setOffset] = useState<number>(0);
 
   const dispatch = useAppDispatch();
@@ -19,7 +22,7 @@ const Products = ({ initialAmount = 12 }) => {
   }, [dispatch]);
 
   const setNumb = () => {
-    setOffset((numb: number) => numb + initialAmount);
+    setOffset((numb) => numb + initialAmount);
     dispatch(
       getProducts({ offset: offset + initialAmount, limit: initialAmount })
     );

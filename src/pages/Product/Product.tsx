@@ -9,8 +9,8 @@ import Back from "widgets/Back/Back";
 import Socials from "components/Socials/Socials";
 import Spinner from "widgets/Spinner/Spinner";
 import Error from "widgets/Error/Error";
-import { getProduct, productsSelector } from "store/slice/productsSlice";
 
+import { getProduct, productsSelector } from "store/slice/productsSlice";
 import { useAppDispatch, useAppSelector } from "store/hooks";
 
 const Product = () => {
@@ -55,7 +55,7 @@ const Product = () => {
         <div className={styles.product}>
           <div className={styles.images}>
             <div className={styles.imagesItem}>
-              {oneProduct.images.map((image: any, i: any) => (
+              {oneProduct.images.map((image, i) => (
                 <div
                   key={i}
                   className={styles.img}

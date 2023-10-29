@@ -1,4 +1,4 @@
-import { Products } from "store/types/categories";
+import { Products } from "types/categories";
 
 export type FilteredProducts = {
   price_min?: string | number;
@@ -20,8 +20,8 @@ export interface productsSchema {
   product: Products | null;
   filteredList: Products[];
   oneProduct: Products | null;
-  error: string;
+  error?: string;
   isLoading: boolean;
-  errorFilter: string;
+  errorFilter?: string;
   isLoadingFilter: boolean;
 }

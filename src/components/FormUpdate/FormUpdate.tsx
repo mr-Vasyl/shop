@@ -7,7 +7,7 @@ import FormReact from "components/FormReact/FormReact";
 import { fieldsUpdate } from "config/validate";
 
 import { useAppDispatch } from "store/hooks";
-import { User, UserSchema } from "store/types/user";
+import { User, UserSchema } from "types/user";
 
 interface FormUpdateProps {
   selector: UserSchema;

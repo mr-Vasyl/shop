@@ -6,7 +6,7 @@ export type Categories = {
 
 export type RelatedProducts = {
   isMount?: boolean;
-  categoryId?: string | undefined;
+  categoryId?: string;
   offset: number;
   limit: number;
 };
@@ -24,8 +24,8 @@ export interface CategoriesSchema {
   list: Categories[];
   related: Products[];
   search: Products[];
-  error: string;
-  errorSearch: string;
+  error?: string;
+  errorSearch?: string;
   isLoading: boolean;
   isLoadingSearch: boolean;
   isLoadingRelated: boolean;

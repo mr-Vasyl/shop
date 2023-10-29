@@ -13,7 +13,11 @@ import {
 
 import { useAppDispatch, useAppSelector } from "store/hooks";
 
-const SingleCategory = ({ initialAmount = 12 }) => {
+type SingleCategoryProps = {
+  initialAmount?: number;
+};
+
+const SingleCategory = ({ initialAmount = 12 }: SingleCategoryProps) => {
   const [offset, setOffset] = useState<number>(0);
 
   const params = useParams<{ id: string }>();

@@ -6,7 +6,11 @@ import styles from "./Categories.module.css";
 import { categoriesSelector, getCategories } from "store/slice/categoriesSlice";
 import { useAppDispatch, useAppSelector } from "store/hooks";
 
-function Categories({ countCategory = 5 }) {
+type CategoriesProps = {
+  countCategory?: number;
+};
+
+function Categories({ countCategory = 5 }: CategoriesProps) {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -25,7 +29,7 @@ function Categories({ countCategory = 5 }) {
         ) : (
           list
             .filter((_, indx: number) => indx < countCategory)
-            .map(({ id, name }: { id: string; name: string }) => (
+            .map(({ id, name }) => (
               <li key={id}>
                 <NavLink
                   to={`/categories/${id}`}

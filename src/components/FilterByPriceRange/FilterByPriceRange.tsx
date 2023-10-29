@@ -1,6 +1,7 @@
 import { ChangeEvent, useEffect, useState } from "react";
 
 import styles from "./FilterByPriceRange.module.css";
+
 import {
   getFilteredProducts,
   productsSelector,
@@ -8,9 +9,13 @@ import {
 } from "store/slice/productsSlice";
 import ProductsList from "components/Products/ProductsList";
 
+type FilterByPriceRangeProps = {
+  initialAmount?: number;
+};
+
 import { useAppDispatch, useAppSelector } from "store/hooks";
 
-function FilterByPriceRange({ initialAmount = 12 }) {
+function FilterByPriceRange({ initialAmount = 12 }: FilterByPriceRangeProps) {
   const [offset, setOffset] = useState<number>(initialAmount);
   const [filterRange, setFilterRange] = useState<{ min: string; max: string }>({
     min: "",
@@ -46,7 +51,7 @@ function FilterByPriceRange({ initialAmount = 12 }) {
   }
 
   const setNumb = () => {
-    setOffset((numb: number) => numb + initialAmount);
+    setOffset((numb) => numb + initialAmount);
   };
 
   return (

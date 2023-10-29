@@ -10,25 +10,27 @@ import {
   RelatedProducts,
   Products,
   CategoriesSchema,
-} from "store/types/categories";
+} from "types/categories";
+
+import { ErrorResponse } from "types/user";
 
 export const getCategories = createAsyncThunk<
   Categories[],
   undefined,
-  { rejectValue: string }
+  { rejectValue: ErrorResponse }
 >("categories/getCategories", async (_, thunkAPI) => {
   try {
     const products = await axios.get<Categories[]>(`${base_URL}/categories`);
     return products.data;
   } catch (error) {
-    return thunkAPI.rejectWithValue(error as string);
+    return thunkAPI.rejectWithValue({ message: "No categories found" });
   }
 });
 
 export const getRelatedProducts = createAsyncThunk<
   { isMount: boolean; data: Products[] },
   RelatedProducts,
-  { rejectValue: string }
+  { rejectValue: ErrorResponse }
 >(
   "categories/getRelatedProducts",
   async ({ isMount = false, ...params }, thunkAPI) => {
@@ -38,7 +40,7 @@ export const getRelatedProducts = createAsyncThunk<
       });
       return { isMount, data: products.data };
     } catch (error) {
-      return thunkAPI.rejectWithValue(error as string);
+      return thunkAPI.rejectWithValue({ message: "An error occurred" });
     }
   }
 );
@@ -46,7 +48,7 @@ export const getRelatedProducts = createAsyncThunk<
 export const getSearchProducts = createAsyncThunk<
   Products[],
   string,
-  { rejectValue: string }
+  { rejectValue: ErrorResponse }
 >("search/getSearchProducts", async (search, thunkAPI) => {
   try {
     const products = await axios.get<Products[]>(
@@ -54,7 +56,7 @@ export const getSearchProducts = createAsyncThunk<
     );
     return products.data;
   } catch (error) {
-    return thunkAPI.rejectWithValue(error as string);
+    return thunkAPI.rejectWithValue({ message: "An error occurred" });
   }
 });
 
@@ -83,7 +85,7 @@ const categoriesSlice = createSlice({
     });
     builder.addCase(getCategories.rejected, (state, action) => {
       state.isLoadingRelated = false;
-      state.error = action.payload || "An error occurred";
+      state.error = action.payload?.message;
       state.list = [];
     });
 
@@ -101,7 +103,7 @@ const categoriesSlice = createSlice({
     builder.addCase(getRelatedProducts.rejected, (state, action) => {
       state.isLoading = false;
 
-      state.error = action.payload || "An error occurred";
+      state.error = action.payload?.message;
       state.related = [];
     });
 
@@ -116,7 +118,7 @@ const categoriesSlice = createSlice({
     builder.addCase(getSearchProducts.rejected, (state, action) => {
       state.isLoadingSearch = false;
 
-      state.errorSearch = action.payload || "An error occurred";
+      state.errorSearch = action.payload?.message;
       state.search = [];
     });
   },

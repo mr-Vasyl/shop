@@ -12,8 +12,7 @@ import { postAddProduct, productsSelector } from "store/slice/productsSlice";
 
 import { useAppDispatch, useAppSelector } from "store/hooks";
 
-import { NewProduct } from "store/types/products";
-import { Categories } from "store/types/categories";
+import { NewProduct } from "types/products";
 
 const AddProduct = () => {
   const [values, setValues] = useState<string>("1");
@@ -56,7 +55,7 @@ const AddProduct = () => {
       value={values}
       onChange={handleChange}
     >
-      {list.map(({ id, name }: Categories) => (
+      {list.map(({ id, name }) => (
         <option value={id} key={id}>
           {name}
         </option>
